@@ -2,7 +2,7 @@
 
 ## 1.0.0 (2025-12-06)
 
-Initial release combining [Obsidian Outliner](https://github.com/vslinko/obsidian-outliner) and [Obsidian Zoom](https://github.com/vslinko/obsidian-zoom) into a single unified plugin.
+Initial release combining [Outliner](https://github.com/vslinko/obsidian-outliner) and [Zoom](https://github.com/vslinko/obsidian-zoom) into a single unified plugin.
 
 ### Features from Obsidian Outliner
 - Move lists up/down with keyboard shortcuts

@@ -54,9 +54,9 @@ jobs:
         with:
           token: "${{ steps.app-token.outputs.token }}"
           tag_name: ${{ steps.version.outputs.VERSION }}
-          name: Obsidian Pro Outliner v${{ steps.version.outputs.VERSION }}
+          name: Pro Outliner v${{ steps.version.outputs.VERSION }}
           body: |
-            ## Obsidian Pro Outliner v${{ steps.version.outputs.VERSION }}
+            ## Pro Outliner v${{ steps.version.outputs.VERSION }}
 
             ${{ inputs.notes || 'See CHANGELOG.md for details.' }}
 
