@@ -1,0 +1,76 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      notes:
+        description: Release notes (optional)
+        type: string
+        required: false
+        default: ''
+
+env:
+  NODE_VERSION: 22
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: "${{ secrets.BOT_APP_ID }}"
+          private-key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: "${{ steps.app-token.outputs.token }}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Get version from manifest.json
+        id: version
+        run: |
+          VERSION=$(node -p "require('./manifest.json').version")
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Detected version: ${VERSION}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: "${{ steps.app-token.outputs.token }}"
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          name: Obsidian Pro Outliner v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Obsidian Pro Outliner v${{ steps.version.outputs.VERSION }}
+
+            ${{ inputs.notes || 'See CHANGELOG.md for details.' }}
+
+            ### Installation
+
+            1. Download the files below (`main.js`, `manifest.json`, `styles.css`)
+            2. Create a folder: `<vault>/.obsidian/plugins/obsidian-pro-outliner/`
+            3. Move the downloaded files into that folder
+            4. Reload Obsidian
+            5. Enable the plugin in Settings → Community plugins
+          files: |
+            main.js
+            manifest.json
+            styles.css
+          draft: false
+          prerelease: false
+

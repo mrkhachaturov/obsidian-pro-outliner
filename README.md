@@ -15,11 +15,7 @@ Both original plugins are licensed under the MIT License.
 
 ## Demo
 
-### Outliner Features
-![Outliner Demo](https://raw.githubusercontent.com/vslinko/obsidian-outliner/main/demos/demo1.gif)
-
-### Zoom Features
-![Zoom Demo](https://raw.githubusercontent.com/vslinko/obsidian-zoom/main/demo.gif)
+<!-- TODO: Add demo GIF -->
 
 ## Installation
 
