@@ -19,6 +19,16 @@ Both original plugins are licensed under the MIT License.
 
 ## Installation
 
+Until this plugin is made available in the official Community Plugins, it can be installed via [BRAT](https://github.com/TfTHacker/obsidian42-brat):
+
+1. Install the **BRAT** plugin from the Community Plugins page
+2. Go to BRAT settings
+3. Click **"Add Beta Plugin"** button
+4. Paste the following URL: `https://github.com/mrkhachaturov/obsidian-pro-outliner`
+5. Select the latest release
+6. Make sure **"Enable after installing the plugin"** is checked
+7. Click **"Add Plugin"** button
+
 ### Manual Installation
 
 Download `main.js`, `manifest.json`, `styles.css` from the [latest release](https://github.com/mrkhachaturov/obsidian-pro-outliner/releases/latest) and put them into `<vault>/.obsidian/plugins/obsidian-pro-outliner` folder.
