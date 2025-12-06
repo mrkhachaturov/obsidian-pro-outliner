@@ -3,7 +3,7 @@
   "name": "Pro Outliner",
   "version": "1.0.0",
   "minAppVersion": "1.8.7",
-  "description": "Work with your lists like in Workflowy or RoamResearch, with powerful zoom functionality. Combines the best of Outliner and Zoom plugins.",
+  "description": "Work with your lists like in Workflowy, RoamResearch, or Tana, with powerful zoom functionality. Combines the best of Outliner and Zoom plugins.",
   "author": "Ruben Khachaturov",
   "authorUrl": "https://github.com/mrkhachaturov",
   "isDesktopOnly": false

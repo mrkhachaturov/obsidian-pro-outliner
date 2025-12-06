@@ -1,6 +1,6 @@
 # Obsidian Pro Outliner
 
-**Work with your lists like in Workflowy or RoamResearch, with powerful zoom functionality**
+**Work with your lists like in Workflowy, RoamResearch, or Tana, with powerful zoom functionality**
 
 This plugin combines the features of [Obsidian Outliner](https://github.com/vslinko/obsidian-outliner) and [Obsidian Zoom](https://github.com/vslinko/obsidian-zoom) into a single, unified plugin with additional enhancements.
 
