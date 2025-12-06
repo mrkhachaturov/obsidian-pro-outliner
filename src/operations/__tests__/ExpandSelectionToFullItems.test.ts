@@ -131,9 +131,9 @@ describe("ExpandSelectionToFullItems operation", () => {
     expect(op.shouldUpdate()).toBe(true);
 
     const selection = root.getSelection();
-    // Should expand to start of task 1 content (after checkbox)
+    // Should expand to start of task 1 content (after bullet)
     expect(selection.anchor.line).toBe(0);
-    expect(selection.anchor.ch).toBe(6);
+    expect(selection.anchor.ch).toBe(2);
     // Should expand to end of task 2
     expect(selection.head.line).toBe(1);
     expect(selection.head.ch).toBe(12);
@@ -250,6 +250,6 @@ describe("ExpandSelectionToFullItems operation", () => {
     expect(selection.anchor.ch).toBe(6);
     // Should end at child 1.2 (which has no children)
     expect(selection.head.line).toBe(3);
-    expect(selection.head.ch).toBe(14);
+    expect(selection.head.ch).toBe(15);
   });
 });

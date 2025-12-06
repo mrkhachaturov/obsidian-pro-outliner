@@ -18,7 +18,7 @@ export function renderHeader(
     const d = doc.createElement("span");
     d.classList.add("zoom-plugin-delimiter");
     if (hidden) d.classList.add("zoom-plugin-hidden");
-    d.innerText = "/";
+    d.textContent = "/";
     return d;
   };
 
@@ -94,7 +94,7 @@ export function renderHeader(
 
       expandBtn = doc.createElement("button");
       expandBtn.classList.add("zoom-plugin-expand-btn");
-      expandBtn.innerText = "···";
+      expandBtn.textContent = "···";
       expandBtn.title = hiddenIndices
         .map((idx) => breadcrumbs[idx].title)
         .join(" / ");
@@ -119,7 +119,7 @@ export function renderHeader(
   if (shouldCollapse) {
     collapseBtn = doc.createElement("button");
     collapseBtn.classList.add("zoom-plugin-collapse-btn", "zoom-plugin-hidden");
-    collapseBtn.innerText = "‹";
+    collapseBtn.textContent = "‹";
     collapseBtn.title = "Collapse";
     collapseBtn.addEventListener("click", (e) => {
       e.preventDefault();
