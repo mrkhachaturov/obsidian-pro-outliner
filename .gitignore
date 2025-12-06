@@ -1,0 +1,22 @@
+# Build output
+main.js
+*.js.map
+
+# Dependencies
+node_modules/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Husky
+.husky/_
+
+# Test cache
+.jest-cache/
+

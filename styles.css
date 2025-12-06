@@ -1,0 +1,250 @@
+/* =================================================================
+   Obsidian Pro Outliner - Combined Styles
+   Combines styles from Obsidian Outliner and Obsidian Zoom
+   ================================================================= */
+
+/* =================================================================
+   OUTLINER STYLES - Lists and Bullets
+   ================================================================= */
+.outliner-plugin-better-lists .cm-s-obsidian .HyperMD-list-line {
+  /* padding-top: 0.4em; */
+}
+
+.outliner-plugin-better-lists .cm-formatting-list-ul {
+  margin-right: 0.3em;
+}
+
+.outliner-plugin-better-lists .list-bullet::after {
+  width: 0.4em;
+  height: 0.4em;
+  background-color: var(--text-muted);
+}
+
+/* =================================================================
+   OUTLINER STYLES - Vertical Lines
+   ================================================================= */
+.outliner-plugin-list-lines-scroller {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: var(--file-margins);
+  padding-left: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.outliner-plugin-list-lines-content-container {
+  position: relative;
+}
+
+.outliner-plugin-list-line {
+  pointer-events: auto;
+  position: absolute;
+  width: 5px;
+  margin-left: 0.5ch;
+  margin-top: 1em;
+  z-index: 1;
+  cursor: pointer;
+  background: transparent;
+  background-image: linear-gradient(
+    to right,
+    var(--text-faint) 1px,
+    transparent 1px
+  );
+  background-position-x: 2px;
+  background-repeat: no-repeat;
+}
+
+.outliner-plugin-better-bullets .outliner-plugin-list-line {
+  margin-top: 1.4em;
+}
+
+.markdown-source-view.mod-cm6.is-readable-line-width
+  .outliner-plugin-list-lines-content-container {
+  max-width: 700px;
+  margin: auto;
+}
+
+.outliner-plugin-list-line:hover {
+  background: var(--text-faint);
+}
+
+.outliner-plugin-vertical-lines
+  .markdown-source-view.mod-cm6
+  .cm-hmd-list-indent
+  .cm-indent::before {
+  content: none;
+}
+
+/* =================================================================
+   OUTLINER STYLES - Drag and Drop
+   ================================================================= */
+.outliner-plugin-dropping-line {
+  background-color: hsla(var(--interactive-accent-hsl), 0.4);
+}
+
+.outliner-plugin-dragging-line {
+  opacity: 0.5;
+  background-color: hsla(var(--interactive-accent-hsl), 0.2);
+}
+
+.outliner-plugin-drop-zone {
+  width: 300px;
+  height: 4px;
+  background: var(--color-accent);
+  z-index: 999;
+  position: absolute;
+  pointer-events: none;
+}
+
+.outliner-plugin-drop-zone-padding {
+  position: absolute;
+  height: 4px;
+}
+
+body.outliner-plugin-dnd:not(.outliner-plugin-dragging) .cm-formatting-list,
+body.outliner-plugin-dnd:not(.outliner-plugin-dragging)
+  .cm-fold-indicator
+  .collapse-indicator {
+  cursor: grab !important;
+}
+
+html body.outliner-plugin-dnd.outliner-plugin-dragging {
+  cursor: grabbing !important;
+}
+
+/* =================================================================
+   ZOOM STYLES - Breadcrumb Header
+   ================================================================= */
+.zoom-plugin-header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+  margin: var(--file-margins);
+  margin-top: var(--size-4-2);
+  margin-bottom: var(--size-4-2);
+  font-size: var(--font-ui-small);
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+.zoom-plugin-title {
+  color: var(--text-muted);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100px;
+  flex-shrink: 1;
+  transition: color 0.15s ease, opacity 0.2s ease, max-width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+}
+
+.zoom-plugin-title:hover {
+  color: var(--text-normal);
+  text-decoration: underline;
+  max-width: 600px;
+  flex-shrink: 0;
+}
+
+.zoom-plugin-title.zoom-plugin-hidden {
+  max-width: 0;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.zoom-plugin-title-current {
+  max-width: none;
+  flex-shrink: 1;
+}
+
+.zoom-plugin-delimiter {
+  display: inline-block;
+  padding: 0 6px;
+  color: var(--text-faint);
+  flex-shrink: 0;
+  font-size: 0.9em;
+  transition: opacity 0.2s ease, padding 0.2s ease;
+  opacity: 1;
+}
+
+.zoom-plugin-delimiter.zoom-plugin-hidden {
+  opacity: 0;
+  padding: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.zoom-plugin-expand-btn,
+.zoom-plugin-collapse-btn {
+  background: var(--background-modifier-hover);
+  border: none;
+  border-radius: var(--radius-s);
+  color: var(--text-faint);
+  cursor: pointer;
+  font-size: 0.8em;
+  padding: 0 6px;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.2s ease, max-width 0.2s ease, padding 0.2s ease;
+  flex-shrink: 0;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  opacity: 1;
+  max-width: 50px;
+  overflow: hidden;
+}
+
+.zoom-plugin-expand-btn:hover,
+.zoom-plugin-collapse-btn:hover {
+  background: var(--background-modifier-border);
+  color: var(--text-muted);
+}
+
+.zoom-plugin-expand-btn.zoom-plugin-hidden,
+.zoom-plugin-collapse-btn.zoom-plugin-hidden {
+  opacity: 0;
+  max-width: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.zoom-plugin-collapse-btn {
+  margin-left: 6px;
+}
+
+/* =================================================================
+   ZOOM STYLES - Click on Bullet to Zoom
+   ================================================================= */
+.zoom-plugin-bls-zoom .cm-editor .cm-formatting-list-ol,
+.zoom-plugin-bls-zoom .cm-editor .cm-formatting-list-ul {
+  cursor: pointer;
+}
+
+.zoom-plugin-bls-zoom
+  .markdown-source-view.mod-cm6
+  .cm-fold-indicator
+  .collapse-indicator {
+  margin-right: 6px;
+  padding-right: 0;
+}
+
+.zoom-plugin-bls-zoom
+  .markdown-source-view.mod-cm6
+  .cm-line:not(.cm-active):not(.HyperMD-header):not(.HyperMD-task-line)
+  .cm-fold-indicator
+  .collapse-indicator {
+  margin-right: 18px;
+  padding-right: 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-panels {
+  border-bottom-color: var(--background-modifier-border);
+}
+
