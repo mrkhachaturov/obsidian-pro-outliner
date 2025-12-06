@@ -46,7 +46,7 @@ test("should render collapsed breadcrumbs with 4+ items", () => {
   });
 
   const titles = h.querySelectorAll(
-    ".zoom-plugin-title:not(.zoom-plugin-hidden)"
+    ".zoom-plugin-title:not(.zoom-plugin-hidden)",
   );
   // Collapsed: root / ··· / second-to-last / last = 3 visible titles
   expect(titles.length).toBe(3);
@@ -73,27 +73,27 @@ test("should expand breadcrumbs when clicking expand button", () => {
 
   // Before expand: root, …, second-to-last, last = 3 visible titles
   expect(
-    h.querySelectorAll(".zoom-plugin-title:not(.zoom-plugin-hidden)").length
+    h.querySelectorAll(".zoom-plugin-title:not(.zoom-plugin-hidden)").length,
   ).toBe(3);
   expect(
-    h.querySelector(".zoom-plugin-expand-btn:not(.zoom-plugin-hidden)")
+    h.querySelector(".zoom-plugin-expand-btn:not(.zoom-plugin-hidden)"),
   ).not.toBeNull();
 
   // Click expand
   const expandBtn = h.querySelector<HTMLButtonElement>(
-    ".zoom-plugin-expand-btn"
+    ".zoom-plugin-expand-btn",
   );
   expandBtn?.click();
 
   // After expand: all 5 titles visible
   expect(
-    h.querySelectorAll(".zoom-plugin-title:not(.zoom-plugin-hidden)").length
+    h.querySelectorAll(".zoom-plugin-title:not(.zoom-plugin-hidden)").length,
   ).toBe(5);
   expect(
-    h.querySelector(".zoom-plugin-expand-btn:not(.zoom-plugin-hidden)")
+    h.querySelector(".zoom-plugin-expand-btn:not(.zoom-plugin-hidden)"),
   ).toBeNull();
   expect(
-    h.querySelector(".zoom-plugin-collapse-btn:not(.zoom-plugin-hidden)")
+    h.querySelector(".zoom-plugin-collapse-btn:not(.zoom-plugin-hidden)"),
   ).not.toBeNull();
 });
 
@@ -110,25 +110,25 @@ test("should collapse breadcrumbs when clicking collapse button", () => {
 
   // Expand first
   const expandBtn = h.querySelector<HTMLButtonElement>(
-    ".zoom-plugin-expand-btn"
+    ".zoom-plugin-expand-btn",
   );
   expandBtn?.click();
 
   expect(
-    h.querySelectorAll(".zoom-plugin-title:not(.zoom-plugin-hidden)").length
+    h.querySelectorAll(".zoom-plugin-title:not(.zoom-plugin-hidden)").length,
   ).toBe(4);
 
   // Now collapse
   const collapseBtn = h.querySelector<HTMLButtonElement>(
-    ".zoom-plugin-collapse-btn:not(.zoom-plugin-hidden)"
+    ".zoom-plugin-collapse-btn:not(.zoom-plugin-hidden)",
   );
   collapseBtn?.click();
 
   expect(
-    h.querySelectorAll(".zoom-plugin-title:not(.zoom-plugin-hidden)").length
+    h.querySelectorAll(".zoom-plugin-title:not(.zoom-plugin-hidden)").length,
   ).toBe(3);
   expect(
-    h.querySelector(".zoom-plugin-expand-btn:not(.zoom-plugin-hidden)")
+    h.querySelector(".zoom-plugin-expand-btn:not(.zoom-plugin-hidden)"),
   ).not.toBeNull();
 });
 

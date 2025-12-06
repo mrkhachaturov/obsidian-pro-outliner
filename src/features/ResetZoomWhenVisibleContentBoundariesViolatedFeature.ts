@@ -11,7 +11,7 @@ import { Logger } from "../services/Logger";
 
 export interface CalculateHiddenContentRanges {
   calculateHiddenContentRanges(
-    state: EditorState
+    state: EditorState,
   ): { from: number; to: number }[] | null;
 }
 
@@ -19,28 +19,26 @@ export interface ZoomOut {
   zoomOut(view: EditorView): void;
 }
 
-export class ResetZoomWhenVisibleContentBoundariesViolatedFeature
-  implements Feature
-{
+export class ResetZoomWhenVisibleContentBoundariesViolatedFeature implements Feature {
   private detectVisibleContentBoundariesViolation =
     new DetectVisibleContentBoundariesViolation(
       this.calculateHiddenContentRanges,
       {
         visibleContentBoundariesViolated: (state) =>
           this.visibleContentBoundariesViolated(state),
-      }
+      },
     );
 
   constructor(
     private plugin: Plugin,
     private logger: Logger,
     private calculateHiddenContentRanges: CalculateHiddenContentRanges,
-    private zoomOut: ZoomOut
+    private zoomOut: ZoomOut,
   ) {}
 
   async load() {
     this.plugin.registerEditorExtension(
-      this.detectVisibleContentBoundariesViolation.getExtension()
+      this.detectVisibleContentBoundariesViolation.getExtension(),
     );
   }
 
@@ -48,7 +46,7 @@ export class ResetZoomWhenVisibleContentBoundariesViolatedFeature
 
   private visibleContentBoundariesViolated(state: EditorState) {
     const l = this.logger.bind(
-      "ResetZoomWhenVisibleContentBoundariesViolatedFeature:visibleContentBoundariesViolated"
+      "ResetZoomWhenVisibleContentBoundariesViolatedFeature:visibleContentBoundariesViolated",
     );
     l("visible content boundaries violated, zooming out");
     this.zoomOut.zoomOut(getEditorViewFromEditorState(state));

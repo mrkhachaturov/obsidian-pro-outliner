@@ -10,32 +10,32 @@ import { Logger } from "../services/Logger";
 
 export interface CalculateVisibleContentRange {
   calculateVisibleContentRange(
-    state: EditorState
+    state: EditorState,
   ): { from: number; to: number } | null;
 }
 
 export class LimitSelectionFeature implements Feature {
   private limitSelectionOnZoomingIn = new LimitSelectionOnZoomingIn(
-    this.logger
+    this.logger,
   );
   private limitSelectionWhenZoomedIn = new LimitSelectionWhenZoomedIn(
     this.logger,
-    this.calculateVisibleContentRange
+    this.calculateVisibleContentRange,
   );
 
   constructor(
     private plugin: Plugin,
     private logger: Logger,
-    private calculateVisibleContentRange: CalculateVisibleContentRange
+    private calculateVisibleContentRange: CalculateVisibleContentRange,
   ) {}
 
   async load() {
     this.plugin.registerEditorExtension(
-      this.limitSelectionOnZoomingIn.getExtension()
+      this.limitSelectionOnZoomingIn.getExtension(),
     );
 
     this.plugin.registerEditorExtension(
-      this.limitSelectionWhenZoomedIn.getExtension()
+      this.limitSelectionWhenZoomedIn.getExtension(),
     );
   }
 

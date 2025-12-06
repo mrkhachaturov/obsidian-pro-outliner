@@ -81,7 +81,7 @@ export class KeepOnlyZoomedContentVisible {
     view: EditorView,
     from: number,
     to: number,
-    options: { scrollIntoView?: boolean } = {}
+    options: { scrollIntoView?: boolean } = {},
   ) {
     const { scrollIntoView } = { ...{ scrollIntoView: true }, ...options };
 
@@ -91,7 +91,7 @@ export class KeepOnlyZoomedContentVisible {
       "KeepOnlyZoomedContent:keepOnlyZoomedContentVisible",
       "keep only zoomed content visible",
       effect.value.from,
-      effect.value.to
+      effect.value.to,
     );
 
     view.dispatch({

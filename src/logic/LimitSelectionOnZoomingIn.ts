@@ -22,7 +22,7 @@ export class LimitSelectionOnZoomingIn {
     const newSelection = calculateLimitedSelection(
       tr.newSelection,
       e.value.from,
-      e.value.to
+      e.value.to,
     );
 
     if (!newSelection) {
@@ -32,7 +32,7 @@ export class LimitSelectionOnZoomingIn {
     this.logger.log(
       "LimitSelectionOnZoomingIn:limitSelectionOnZoomingIn",
       "limiting selection",
-      newSelection.toJSON()
+      newSelection.toJSON(),
     );
 
     return [tr, { selection: newSelection }];

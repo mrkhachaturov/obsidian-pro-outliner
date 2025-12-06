@@ -19,12 +19,12 @@ export class ZoomOnClickFeature implements Feature {
   constructor(
     private plugin: Plugin,
     private settings: Settings,
-    private zoomIn: ZoomIn
+    private zoomIn: ZoomIn,
   ) {}
 
   async load() {
     this.plugin.registerEditorExtension(
-      this.detectClickOnBullet.getExtension()
+      this.detectClickOnBullet.getExtension(),
     );
   }
 

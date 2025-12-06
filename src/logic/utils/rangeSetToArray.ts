@@ -1,7 +1,7 @@
 import { RangeSet, RangeValue } from "@codemirror/state";
 
 export function rangeSetToArray<T extends RangeValue>(
-  rs: RangeSet<T>
+  rs: RangeSet<T>,
 ): Array<{ from: number; to: number }> {
   const res = [];
   const i = rs.iter();

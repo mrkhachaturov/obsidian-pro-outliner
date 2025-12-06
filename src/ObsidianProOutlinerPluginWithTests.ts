@@ -357,4 +357,3 @@ export default class ObsidianProOutlinerPluginWithTests extends ObsidianProOutli
     await this.settings.save();
   }
 }
-

@@ -63,7 +63,7 @@ export class RenderNavigationHeader {
   constructor(
     private logger: Logger,
     private zoomIn: ZoomIn,
-    private zoomOut: ZoomOut
+    private zoomOut: ZoomOut,
   ) {}
 
   public showHeader(view: EditorView, breadcrumbs: Breadcrumb[]) {

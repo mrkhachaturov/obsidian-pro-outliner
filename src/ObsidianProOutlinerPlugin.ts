@@ -10,24 +10,22 @@ import { DragAndDrop } from "./features/DragAndDrop";
 import { EditorSelectionsBehaviourOverride } from "./features/EditorSelectionsBehaviourOverride";
 import { EnterBehaviourOverride } from "./features/EnterBehaviourOverride";
 import { Feature } from "./features/Feature";
+// Zoom features
+import { HeaderNavigationFeature } from "./features/HeaderNavigationFeature";
+import { LimitSelectionFeature } from "./features/LimitSelectionFeature";
 import { ListsFoldingCommands } from "./features/ListsFoldingCommands";
 import { ListsMovementCommands } from "./features/ListsMovementCommands";
+import { ListsStylesFeature } from "./features/ListsStylesFeature";
 import { MetaBackspaceBehaviourOverride } from "./features/MetaBackspaceBehaviourOverride";
+import { ResetZoomWhenVisibleContentBoundariesViolatedFeature } from "./features/ResetZoomWhenVisibleContentBoundariesViolatedFeature";
 import { SettingsTab } from "./features/SettingsTab";
 import { ShiftTabBehaviourOverride } from "./features/ShiftTabBehaviourOverride";
 import { SystemInfo } from "./features/SystemInfo";
 import { TabBehaviourOverride } from "./features/TabBehaviourOverride";
 import { VerticalLines } from "./features/VerticalLines";
 import { VimOBehaviourOverride } from "./features/VimOBehaviourOverride";
-
-// Zoom features
-import { HeaderNavigationFeature } from "./features/HeaderNavigationFeature";
-import { LimitSelectionFeature } from "./features/LimitSelectionFeature";
-import { ListsStylesFeature } from "./features/ListsStylesFeature";
-import { ResetZoomWhenVisibleContentBoundariesViolatedFeature } from "./features/ResetZoomWhenVisibleContentBoundariesViolatedFeature";
 import { ZoomFeature } from "./features/ZoomFeature";
 import { ZoomOnClickFeature } from "./features/ZoomOnClickFeature";
-
 // Services
 import { ChangesApplicator } from "./services/ChangesApplicator";
 import { IMEDetector } from "./services/IMEDetector";
@@ -36,7 +34,6 @@ import { ObsidianSettings } from "./services/ObsidianSettings";
 import { OperationPerformer } from "./services/OperationPerformer";
 import { Parser } from "./services/Parser";
 import { Settings } from "./services/Settings";
-
 // Utils
 import { getEditorViewFromEditor } from "./utils/getEditorViewFromEditor";
 
@@ -299,4 +296,3 @@ export default class ObsidianProOutlinerPlugin extends Plugin {
     this.zoomFeature.refreshZoom(getEditorViewFromEditor(editor));
   }
 }
-

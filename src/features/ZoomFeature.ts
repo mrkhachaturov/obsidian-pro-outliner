@@ -21,7 +21,7 @@ export class ZoomFeature implements Feature {
   private zoomOutCallbacks: ZoomOutCallback[] = [];
 
   private keepOnlyZoomedContentVisible = new KeepOnlyZoomedContentVisible(
-    this.logger
+    this.logger,
   );
 
   private calculateRangeForZooming = new CalculateRangeForZooming();
@@ -30,17 +30,20 @@ export class ZoomFeature implements Feature {
     getDocumentTitle: getDocumentTitle,
   });
 
-  constructor(private plugin: Plugin, private logger: Logger) {}
+  constructor(
+    private plugin: Plugin,
+    private logger: Logger,
+  ) {}
 
   public calculateVisibleContentRange(state: EditorState) {
     return this.keepOnlyZoomedContentVisible.calculateVisibleContentRange(
-      state
+      state,
     );
   }
 
   public calculateHiddenContentRanges(state: EditorState) {
     return this.keepOnlyZoomedContentVisible.calculateHiddenContentRanges(
-      state
+      state,
     );
   }
 
@@ -55,7 +58,7 @@ export class ZoomFeature implements Feature {
   public refreshZoom(view: EditorView) {
     const prevRange =
       this.keepOnlyZoomedContentVisible.calculateVisibleContentRange(
-        view.state
+        view.state,
       );
 
     if (!prevRange) {
@@ -64,7 +67,7 @@ export class ZoomFeature implements Feature {
 
     const newRange = this.calculateRangeForZooming.calculateRangeForZooming(
       view.state,
-      prevRange.from
+      prevRange.from,
     );
 
     if (!newRange) {
@@ -75,7 +78,7 @@ export class ZoomFeature implements Feature {
       view,
       newRange.from,
       newRange.to,
-      { scrollIntoView: false }
+      { scrollIntoView: false },
     );
   }
 
@@ -85,14 +88,14 @@ export class ZoomFeature implements Feature {
 
     if (!isFoldingEnabled(this.plugin.app)) {
       new Notice(
-        `In order to zoom, you must first enable "Fold heading" and "Fold indent" under Settings -> Editor`
+        `In order to zoom, you must first enable "Fold heading" and "Fold indent" under Settings -> Editor`,
       );
       return;
     }
 
     const range = this.calculateRangeForZooming.calculateRangeForZooming(
       view.state,
-      pos
+      pos,
     );
 
     if (!range) {
@@ -103,7 +106,7 @@ export class ZoomFeature implements Feature {
     this.keepOnlyZoomedContentVisible.keepOnlyZoomedContentVisible(
       view,
       range.from,
-      range.to
+      range.to,
     );
 
     for (const cb of this.zoomInCallbacks) {
@@ -128,7 +131,7 @@ export class ZoomFeature implements Feature {
 
     const currentRange =
       this.keepOnlyZoomedContentVisible.calculateVisibleContentRange(
-        view.state
+        view.state,
       );
 
     if (!currentRange) {
@@ -141,7 +144,7 @@ export class ZoomFeature implements Feature {
 
     const breadcrumbs = this.collectBreadcrumbs.collectBreadcrumbs(
       view.state,
-      currentRange.from
+      currentRange.from,
     );
 
     // breadcrumbs: [document title (pos: null), ...ancestors, current item]
@@ -168,7 +171,7 @@ export class ZoomFeature implements Feature {
 
   async load() {
     this.plugin.registerEditorExtension(
-      this.keepOnlyZoomedContentVisible.getExtension()
+      this.keepOnlyZoomedContentVisible.getExtension(),
     );
 
     this.plugin.addCommand({

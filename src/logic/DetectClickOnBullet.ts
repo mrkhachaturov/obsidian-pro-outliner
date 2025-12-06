@@ -12,7 +12,7 @@ export interface ClickOnBullet {
 export class DetectClickOnBullet {
   constructor(
     private settings: Settings,
-    private clickOnBullet: ClickOnBullet
+    private clickOnBullet: ClickOnBullet,
   ) {}
 
   getExtension() {

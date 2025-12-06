@@ -30,13 +30,13 @@ export interface NotifyAfterZoomOut {
 
 export interface CalculateHiddenContentRanges {
   calculateHiddenContentRanges(
-    state: EditorState
+    state: EditorState,
   ): { from: number; to: number }[] | null;
 }
 
 export interface CalculateVisibleContentRange {
   calculateVisibleContentRange(
-    state: EditorState
+    state: EditorState,
   ): { from: number; to: number } | null;
 }
 
@@ -44,14 +44,14 @@ class ShowHeaderAfterZoomIn implements Feature {
   constructor(
     private notifyAfterZoomIn: NotifyAfterZoomIn,
     private collectBreadcrumbs: CollectBreadcrumbs,
-    private renderNavigationHeader: RenderNavigationHeader
+    private renderNavigationHeader: RenderNavigationHeader,
   ) {}
 
   async load() {
     this.notifyAfterZoomIn.notifyAfterZoomIn((view, pos) => {
       const breadcrumbs = this.collectBreadcrumbs.collectBreadcrumbs(
         view.state,
-        pos
+        pos,
       );
       this.renderNavigationHeader.showHeader(view, breadcrumbs);
     });
@@ -63,7 +63,7 @@ class ShowHeaderAfterZoomIn implements Feature {
 class HideHeaderAfterZoomOut implements Feature {
   constructor(
     private notifyAfterZoomOut: NotifyAfterZoomOut,
-    private renderNavigationHeader: RenderNavigationHeader
+    private renderNavigationHeader: RenderNavigationHeader,
   ) {}
 
   async load() {
@@ -82,7 +82,7 @@ class UpdateHeaderAfterRangeBeforeVisibleRangeChanged implements Feature {
       {
         rangeBeforeVisibleRangeChanged: (state) =>
           this.rangeBeforeVisibleRangeChanged(state),
-      }
+      },
     );
 
   constructor(
@@ -90,12 +90,12 @@ class UpdateHeaderAfterRangeBeforeVisibleRangeChanged implements Feature {
     private calculateHiddenContentRanges: CalculateHiddenContentRanges,
     private calculateVisibleContentRange: CalculateVisibleContentRange,
     private collectBreadcrumbs: CollectBreadcrumbs,
-    private renderNavigationHeader: RenderNavigationHeader
+    private renderNavigationHeader: RenderNavigationHeader,
   ) {}
 
   async load() {
     this.plugin.registerEditorExtension(
-      this.detectRangeBeforeVisibleRangeChanged.getExtension()
+      this.detectRangeBeforeVisibleRangeChanged.getExtension(),
     );
   }
 
@@ -106,7 +106,7 @@ class UpdateHeaderAfterRangeBeforeVisibleRangeChanged implements Feature {
 
     const pos =
       this.calculateVisibleContentRange.calculateVisibleContentRange(
-        state
+        state,
       ).from;
 
     const breadcrumbs = this.collectBreadcrumbs.collectBreadcrumbs(state, pos);
@@ -123,18 +123,18 @@ export class HeaderNavigationFeature implements Feature {
   private renderNavigationHeader = new RenderNavigationHeader(
     this.logger,
     this.zoomIn,
-    this.zoomOut
+    this.zoomOut,
   );
 
   private showHeaderAfterZoomIn = new ShowHeaderAfterZoomIn(
     this.notifyAfterZoomIn,
     this.collectBreadcrumbs,
-    this.renderNavigationHeader
+    this.renderNavigationHeader,
   );
 
   private hideHeaderAfterZoomOut = new HideHeaderAfterZoomOut(
     this.notifyAfterZoomOut,
-    this.renderNavigationHeader
+    this.renderNavigationHeader,
   );
 
   private updateHeaderAfterRangeBeforeVisibleRangeChanged =
@@ -143,7 +143,7 @@ export class HeaderNavigationFeature implements Feature {
       this.calculateHiddenContentRanges,
       this.calculateVisibleContentRange,
       this.collectBreadcrumbs,
-      this.renderNavigationHeader
+      this.renderNavigationHeader,
     );
 
   constructor(
@@ -154,12 +154,12 @@ export class HeaderNavigationFeature implements Feature {
     private zoomIn: ZoomIn,
     private zoomOut: ZoomOut,
     private notifyAfterZoomIn: NotifyAfterZoomIn,
-    private notifyAfterZoomOut: NotifyAfterZoomOut
+    private notifyAfterZoomOut: NotifyAfterZoomOut,
   ) {}
 
   async load() {
     this.plugin.registerEditorExtension(
-      this.renderNavigationHeader.getExtension()
+      this.renderNavigationHeader.getExtension(),
     );
 
     this.showHeaderAfterZoomIn.load();

@@ -16,7 +16,7 @@ export class ListsStylesFeature implements Feature {
   async unload() {
     this.settings.removeCallback(
       "zoomOnClick",
-      this.onZoomOnClickSettingChange
+      this.onZoomOnClickSettingChange,
     );
 
     this.removeZoomStyles();

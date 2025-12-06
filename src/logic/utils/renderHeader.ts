@@ -3,7 +3,7 @@ export function renderHeader(
   ctx: {
     breadcrumbs: Array<{ title: string; pos: number | null }>;
     onClick: (pos: number | null) => void;
-  }
+  },
 ) {
   const { breadcrumbs, onClick } = ctx;
 
@@ -24,7 +24,7 @@ export function renderHeader(
 
   const createBreadcrumbLink = (
     breadcrumb: { title: string; pos: number | null },
-    options: { hidden?: boolean; isLast?: boolean } = {}
+    options: { hidden?: boolean; isLast?: boolean } = {},
   ) => {
     const { hidden = false, isLast = false } = options;
     const b = doc.createElement("a");
@@ -60,7 +60,7 @@ export function renderHeader(
     if (expand) {
       h.classList.add("zoom-plugin-expanded");
       hideableElements.forEach((el) =>
-        el.classList.remove("zoom-plugin-hidden")
+        el.classList.remove("zoom-plugin-hidden"),
       );
       if (expandBtn) expandBtn.classList.add("zoom-plugin-hidden");
       if (expandDelimiter) expandDelimiter.classList.add("zoom-plugin-hidden");

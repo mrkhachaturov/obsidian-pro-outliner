@@ -8,26 +8,26 @@ export interface VisibleContentBoundariesViolated {
 
 export interface CalculateHiddenContentRanges {
   calculateHiddenContentRanges(
-    state: EditorState
+    state: EditorState,
   ): { from: number; to: number }[] | null;
 }
 
 export class DetectVisibleContentBoundariesViolation {
   constructor(
     private calculateHiddenContentRanges: CalculateHiddenContentRanges,
-    private visibleContentBoundariesViolated: VisibleContentBoundariesViolated
+    private visibleContentBoundariesViolated: VisibleContentBoundariesViolated,
   ) {}
 
   getExtension() {
     return EditorState.transactionExtender.of(
-      this.detectVisibleContentBoundariesViolation
+      this.detectVisibleContentBoundariesViolation,
     );
   }
 
   private detectVisibleContentBoundariesViolation = (tr: Transaction): null => {
     const hiddenRanges =
       this.calculateHiddenContentRanges.calculateHiddenContentRanges(
-        tr.startState
+        tr.startState,
       );
 
     const { touchedOutside, touchedInside } =
@@ -36,7 +36,7 @@ export class DetectVisibleContentBoundariesViolation {
     if (touchedOutside && touchedInside) {
       setImmediate(() => {
         this.visibleContentBoundariesViolated.visibleContentBoundariesViolated(
-          tr.state
+          tr.state,
         );
       });
     }

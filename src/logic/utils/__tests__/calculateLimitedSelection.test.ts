@@ -9,7 +9,7 @@ test("should limit selection if visible area is smaller", () => {
   const newSelection = calculateLimitedSelection(
     selection,
     visibleArea[0],
-    visibleArea[1]
+    visibleArea[1],
   );
 
   expect(newSelection.from).toBe(12);
@@ -23,7 +23,7 @@ test("should limit selection if visible area ends before selection", () => {
   const newSelection = calculateLimitedSelection(
     selection,
     visibleArea[0],
-    visibleArea[1]
+    visibleArea[1],
   );
 
   expect(newSelection.from).toBe(10);
@@ -37,7 +37,7 @@ test("should limit selection if visible area starts after selection", () => {
   const newSelection = calculateLimitedSelection(
     selection,
     visibleArea[0],
-    visibleArea[1]
+    visibleArea[1],
   );
 
   expect(newSelection.from).toBe(12);
@@ -51,7 +51,7 @@ test("should not limit selection if visible area is bigger", () => {
   const newSelection = calculateLimitedSelection(
     selection,
     visibleArea[0],
-    visibleArea[1]
+    visibleArea[1],
   );
 
   expect(newSelection).toBeNull();

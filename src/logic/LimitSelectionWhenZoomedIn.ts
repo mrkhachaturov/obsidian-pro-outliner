@@ -6,14 +6,14 @@ import { Logger } from "../services/Logger";
 
 export interface CalculateVisibleContentRange {
   calculateVisibleContentRange(
-    state: EditorState
+    state: EditorState,
   ): { from: number; to: number } | null;
 }
 
 export class LimitSelectionWhenZoomedIn {
   constructor(
     private logger: Logger,
-    private calculateVisibleContentRange: CalculateVisibleContentRange
+    private calculateVisibleContentRange: CalculateVisibleContentRange,
   ) {}
 
   public getExtension() {
@@ -35,7 +35,7 @@ export class LimitSelectionWhenZoomedIn {
     const newSelection = calculateLimitedSelection(
       tr.newSelection,
       range.from,
-      range.to
+      range.to,
     );
 
     if (!newSelection) {
@@ -45,7 +45,7 @@ export class LimitSelectionWhenZoomedIn {
     this.logger.log(
       "LimitSelectionWhenZoomedIn:limitSelectionWhenZoomedIn",
       "limiting selection",
-      newSelection.toJSON()
+      newSelection.toJSON(),
     );
 
     return [tr, { selection: newSelection }];

@@ -2,7 +2,7 @@ import { Transaction } from "@codemirror/state";
 
 export function calculateVisibleContentBoundariesViolation(
   tr: Transaction,
-  hiddenRanges: Array<{ from: number; to: number }>
+  hiddenRanges: Array<{ from: number; to: number }>,
 ) {
   let touchedBefore = false;
   let touchedAfter = false;
