@@ -6,6 +6,12 @@ import { EditorView } from "@codemirror/view";
 import ObsidianProOutlinerPlugin from "./ObsidianProOutlinerPlugin";
 import { MyEditor, MyEditorPosition } from "./editor";
 
+interface State {
+  folds: number[];
+  selections: { anchor: MyEditorPosition; head: MyEditorPosition }[];
+  value: string;
+}
+
 const keysMap: { [key: string]: number } = {
   Backspace: 8,
   Tab: 9,
