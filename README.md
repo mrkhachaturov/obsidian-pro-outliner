@@ -15,7 +15,7 @@ Both original plugins are licensed under the MIT License.
 
 ## Demo
 
-<!-- TODO: Add demo GIF -->
+![Demo](demos/demo1.gif)
 
 ## Installation
 
