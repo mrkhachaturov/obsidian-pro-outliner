@@ -3,8 +3,8 @@ import { Notice, Plugin } from "obsidian";
 import { Feature } from "./Feature";
 
 import { MyEditor } from "../editor";
-import { t } from "../services/i18n";
 import { ObsidianSettings } from "../services/ObsidianSettings";
+import { t } from "../services/i18n";
 import { createEditorCallback } from "../utils/createEditorCallback";
 
 export class ListsFoldingCommands implements Feature {

@@ -58,7 +58,12 @@ class ShowHeaderAfterZoomIn implements Feature {
       const line = view.state.doc.lineAt(pos);
       const lineNum = line.number;
 
-      console.log("[HeaderNav] Zoom in at line:", lineNum, "text:", line.text.substring(0, 50));
+      console.log(
+        "[HeaderNav] Zoom in at line:",
+        lineNum,
+        "text:",
+        line.text.substring(0, 50),
+      );
 
       // Check if zoomed line is a mirror OR is a child of a mirror
       const mirrorInfo = this.findMirrorParent(view, lineNum);
@@ -69,7 +74,10 @@ class ShowHeaderAfterZoomIn implements Feature {
 
         // Find the original block
         const original = await this.linkedCopiesStore.findBlockById(mirrorId);
-        console.log("[HeaderNav] Original found:", original ? original.file.path : "null");
+        console.log(
+          "[HeaderNav] Original found:",
+          original ? original.file.path : "null",
+        );
         if (original) {
           // Calculate the offset from mirror root to zoomed line
           const offsetFromMirror = zoomedLineNum - mirrorLineNum;
@@ -116,7 +124,12 @@ class ShowHeaderAfterZoomIn implements Feature {
     const currentLine = doc.line(lineNum);
     const currentIndent = this.getIndentLevel(currentLine.text);
 
-    console.log("[HeaderNav] findMirrorParent - checking line:", lineNum, "indent:", currentIndent);
+    console.log(
+      "[HeaderNav] findMirrorParent - checking line:",
+      lineNum,
+      "indent:",
+      currentIndent,
+    );
     console.log("[HeaderNav] Line text:", currentLine.text);
 
     // First check if current line is a mirror
@@ -156,7 +169,10 @@ class ShowHeaderAfterZoomIn implements Feature {
       }
 
       // If we hit root level (no indent) without finding mirror, stop
-      if (checkIndent === 0 && !this.linkedCopiesStore.hasMirrorMarker(checkText)) {
+      if (
+        checkIndent === 0 &&
+        !this.linkedCopiesStore.hasMirrorMarker(checkText)
+      ) {
         break;
       }
     }
@@ -387,8 +403,8 @@ export class HeaderNavigationFeature implements Feature {
     setTimeout(() => {
       const view = this.app.workspace.getActiveViewOfType(MarkdownView);
       if (view) {
-        // @ts-ignore - accessing internal CM view
-        const cmView = (view.editor as any).cm as EditorView;
+        // @ts-expect-error - accessing internal CM view
+        const cmView = (view.editor as { cm?: EditorView }).cm;
         if (!cmView) return;
 
         if (pos === null) {

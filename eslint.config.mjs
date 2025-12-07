@@ -7,6 +7,10 @@ export default tseslint.config(
   {
     rules: {
       "@typescript-eslint/no-this-alias": 0,
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
     },
   },
 );

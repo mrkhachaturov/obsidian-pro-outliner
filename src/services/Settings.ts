@@ -205,7 +205,7 @@ export class Settings {
     } else {
       if (!this.keyCallbacks.has(keyOrCb)) {
         this.keyCallbacks.set(keyOrCb, new Set());
-  }
+      }
       this.keyCallbacks.get(keyOrCb)!.add(cb as KeyCallback<SettingsKey>);
     }
   }

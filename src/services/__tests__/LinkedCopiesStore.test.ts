@@ -9,6 +9,7 @@ const mockApp = {
   metadataCache: {
     getFileCache: jest.fn(),
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any;
 
 describe("LinkedCopiesStore", () => {
@@ -36,7 +37,9 @@ describe("LinkedCopiesStore", () => {
 
   describe("parseBlockId", () => {
     test("should extract block ID from line", () => {
-      expect(store.parseBlockId("- item text ^outliner-abc123")).toBe("outliner-abc123");
+      expect(store.parseBlockId("- item text ^outliner-abc123")).toBe(
+        "outliner-abc123",
+      );
     });
 
     test("should return null if no block ID", () => {
@@ -51,18 +54,18 @@ describe("LinkedCopiesStore", () => {
 
   describe("parseMirrorMarker", () => {
     test("should extract mirror ID from line", () => {
-      expect(store.parseMirrorMarker("- item <!-- mirror:outliner-abc123 -->")).toBe(
-        "outliner-abc123",
-      );
+      expect(
+        store.parseMirrorMarker("- item <!-- mirror:outliner-abc123 -->"),
+      ).toBe("outliner-abc123");
     });
 
     test("should handle spaces in marker", () => {
-      expect(store.parseMirrorMarker("- item <!--mirror:outliner-abc123-->")).toBe(
-        "outliner-abc123",
-      );
-      expect(store.parseMirrorMarker("- item <!--  mirror:outliner-abc123  -->")).toBe(
-        "outliner-abc123",
-      );
+      expect(
+        store.parseMirrorMarker("- item <!--mirror:outliner-abc123-->"),
+      ).toBe("outliner-abc123");
+      expect(
+        store.parseMirrorMarker("- item <!--  mirror:outliner-abc123  -->"),
+      ).toBe("outliner-abc123");
     });
 
     test("should return null if no mirror marker", () => {
@@ -72,7 +75,9 @@ describe("LinkedCopiesStore", () => {
 
   describe("hasMirrorMarker", () => {
     test("should return true if line has mirror marker", () => {
-      expect(store.hasMirrorMarker("- item <!-- mirror:outliner-abc123 -->")).toBe(true);
+      expect(
+        store.hasMirrorMarker("- item <!-- mirror:outliner-abc123 -->"),
+      ).toBe(true);
     });
 
     test("should return false if no mirror marker", () => {
@@ -120,9 +125,9 @@ describe("LinkedCopiesStore", () => {
 
   describe("removeMirrorMarker", () => {
     test("should remove mirror marker from line", () => {
-      expect(store.removeMirrorMarker("- item <!-- mirror:outliner-abc123 -->")).toBe(
-        "- item",
-      );
+      expect(
+        store.removeMirrorMarker("- item <!-- mirror:outliner-abc123 -->"),
+      ).toBe("- item");
     });
 
     test("should return same line if no marker", () => {
@@ -167,9 +172,9 @@ describe("LinkedCopiesStore", () => {
     });
 
     test("should remove mirror marker from content", () => {
-      expect(store.extractListContent("- item <!-- mirror:outliner-abc123 -->")).toBe(
-        "item",
-      );
+      expect(
+        store.extractListContent("- item <!-- mirror:outliner-abc123 -->"),
+      ).toBe("item");
     });
   });
 
@@ -194,7 +199,11 @@ describe("LinkedCopiesStore", () => {
 
   describe("createMirrorContent", () => {
     test("should create mirror content without children", () => {
-      const result = store.createMirrorContent("- item text ^outliner-abc", [], "outliner-abc");
+      const result = store.createMirrorContent(
+        "- item text ^outliner-abc",
+        [],
+        "outliner-abc",
+      );
       expect(result).toBe("- item text <!-- mirror:outliner-abc -->");
     });
 
@@ -219,4 +228,3 @@ describe("LinkedCopiesStore", () => {
     });
   });
 });
-

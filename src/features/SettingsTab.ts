@@ -2,12 +2,12 @@ import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
 
 import { Feature } from "./Feature";
 
-import { t } from "../services/i18n";
 import {
   KeepCursorWithinContent,
   Settings,
   VerticalLinesAction,
 } from "../services/Settings";
+import { t } from "../services/i18n";
 
 class ObsidianProOutlinerPluginSettingTab extends PluginSettingTab {
   constructor(

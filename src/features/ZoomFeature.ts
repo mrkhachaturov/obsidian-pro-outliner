@@ -10,8 +10,8 @@ import { isFoldingEnabled } from "./zoom-utils/isFoldingEnabled";
 import { CalculateRangeForZooming } from "../logic/CalculateRangeForZooming";
 import { CollectBreadcrumbs } from "../logic/CollectBreadcrumbs";
 import { KeepOnlyZoomedContentVisible } from "../logic/KeepOnlyZoomedContentVisible";
-import { t } from "../services/i18n";
 import { Logger } from "../services/Logger";
+import { t } from "../services/i18n";
 import { getEditorViewFromEditor } from "../utils/getEditorViewFromEditor";
 
 export type ZoomInCallback = (view: EditorView, pos: number) => void;

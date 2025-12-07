@@ -1,3 +1,5 @@
+import { Editor, MarkdownView, Notice, Plugin, TFile } from "obsidian";
+
 import {
   Decoration,
   DecorationSet,
@@ -6,17 +8,15 @@ import {
   ViewUpdate,
 } from "@codemirror/view";
 
-import { Editor, MarkdownView, Notice, Plugin, TFile } from "obsidian";
-
 import { Feature } from "./Feature";
 
-import { t } from "../services/i18n";
 import {
   BLOCK_ID_REGEX,
   LinkedCopiesStore,
   MIRROR_MARKER_REGEX,
 } from "../services/LinkedCopiesStore";
 import { Settings } from "../services/Settings";
+import { t } from "../services/i18n";
 
 interface CopySource {
   filePath: string;
@@ -37,7 +37,7 @@ export class LinkedCopiesFeature implements Feature {
   private lastCopySource: CopySource | null = null;
   private isSyncing = false;
   private syncDebounceTimer: ReturnType<typeof setTimeout> | null = null;
-  
+
   // Cache for mirror lookups (invalidated on file changes)
   private mirrorCache: Map<string, MirrorCacheEntry> = new Map();
   private cacheMaxAge = 5000; // 5 seconds cache
@@ -198,13 +198,18 @@ export class LinkedCopiesFeature implements Feature {
       if (view) {
         view.editor.setCursor({ line: original.line, ch: 0 });
         view.editor.scrollIntoView(
-          { from: { line: original.line, ch: 0 }, to: { line: original.line, ch: 0 } },
+          {
+            from: { line: original.line, ch: 0 },
+            to: { line: original.line, ch: 0 },
+          },
           true,
         );
       }
     }, 100);
 
-    new Notice(t("notice.navigated-to-original", { filename: original.file.basename }));
+    new Notice(
+      t("notice.navigated-to-original", { filename: original.file.basename }),
+    );
   }
 
   /**
@@ -270,7 +275,10 @@ export class LinkedCopiesFeature implements Feature {
       if (lineToModify < lines.length) {
         const cleanLine = this.store.removeMirrorMarker(lines[lineToModify]);
         lines[lineToModify] = cleanLine;
-        console.log("[LinkedCopies] breakMirrorLink: modified line", lineToModify);
+        console.log(
+          "[LinkedCopies] breakMirrorLink: modified line",
+          lineToModify,
+        );
         console.log("[LinkedCopies] breakMirrorLink: before:", line);
         console.log("[LinkedCopies] breakMirrorLink: after:", cleanLine);
       }
@@ -289,45 +297,65 @@ export class LinkedCopiesFeature implements Feature {
    */
   private async cleanupOrphanedBlockId(sourceId: string) {
     console.log("[LinkedCopies] cleanupOrphanedBlockId called for:", sourceId);
-    
+
     // Find remaining mirrors
     const mirrors = await this.store.findMirrorsById(sourceId);
     console.log("[LinkedCopies] Found mirrors:", mirrors.length);
-    
+
     if (mirrors.length === 0) {
-      console.log("[LinkedCopies] No mirrors remaining - removing block ID from original");
-      
+      console.log(
+        "[LinkedCopies] No mirrors remaining - removing block ID from original",
+      );
+
       // Find and clean up the original
       const original = await this.store.findBlockById(sourceId);
-      console.log("[LinkedCopies] Original found:", original ? original.file.path : "null");
-      
+      console.log(
+        "[LinkedCopies] Original found:",
+        original ? original.file.path : "null",
+      );
+
       if (original) {
         const content = await this.plugin.app.vault.read(original.file);
         const lines = content.split("\n");
-        
-        console.log("[LinkedCopies] Original line before:", lines[original.line]);
-        
+
+        console.log(
+          "[LinkedCopies] Original line before:",
+          lines[original.line],
+        );
+
         // Remove block ID from the original line
         const cleanedLine = this.store.removeBlockId(lines[original.line]);
         lines[original.line] = cleanedLine;
-        
+
         console.log("[LinkedCopies] Original line after:", cleanedLine);
-        
+
         await this.plugin.app.vault.modify(original.file, lines.join("\n"));
         console.log("[LinkedCopies] File modified successfully");
       }
     } else {
-      console.log("[LinkedCopies] Still", mirrors.length, "mirrors remaining for", sourceId);
-      mirrors.forEach((m, i) => console.log(`[LinkedCopies]   Mirror ${i}:`, m.file.path, "line", m.line));
+      console.log(
+        "[LinkedCopies] Still",
+        mirrors.length,
+        "mirrors remaining for",
+        sourceId,
+      );
+      mirrors.forEach((m, i) =>
+        console.log(
+          `[LinkedCopies]   Mirror ${i}:`,
+          m.file.path,
+          "line",
+          m.line,
+        ),
+      );
     }
   }
 
   /**
    * Handle copy event to track the source location
    */
-  private handleCopyEvent(evt: ClipboardEvent) {
+  private handleCopyEvent(_evt: ClipboardEvent) {
     this.log("Copy event triggered");
-    
+
     if (!this.settings.linkedCopies) {
       this.log("Feature disabled, skipping");
       return;
@@ -340,11 +368,11 @@ export class LinkedCopiesFeature implements Feature {
     }
 
     const editor = view.editor;
-    
+
     // Get the START of selection (not just cursor which could be at end)
     const fromPos = editor.getCursor("from");
     const toPos = editor.getCursor("to");
-    
+
     this.log("Selection from line:", fromPos.line, "to line:", toPos.line);
 
     // Use the first line of the selection
@@ -362,7 +390,7 @@ export class LinkedCopiesFeature implements Feature {
 
     // Get children - either from selection or from indentation
     let children: string[] = [];
-    
+
     if (toPos.line > fromPos.line) {
       // Multi-line selection - use selected lines as children
       for (let i = startLine + 1; i <= toPos.line; i++) {
@@ -395,7 +423,7 @@ export class LinkedCopiesFeature implements Feature {
   /**
    * Paste clipboard content as a linked copy (mirror)
    */
-  private async pasteAsLinkedCopy(editor: Editor, view: MarkdownView) {
+  private async pasteAsLinkedCopy(editor: Editor, _view: MarkdownView) {
     this.log("Paste as linked copy triggered");
 
     if (!this.settings.linkedCopies) {
@@ -406,14 +434,22 @@ export class LinkedCopiesFeature implements Feature {
 
     // Check if we have a recent copy source (within 5 minutes)
     const maxAge = 5 * 60 * 1000; // 5 minutes
-    this.log("Last copy source:", this.lastCopySource ? {
-      filePath: this.lastCopySource.filePath,
-      line: this.lastCopySource.line,
-      content: this.lastCopySource.content,
-      age: Date.now() - this.lastCopySource.timestamp,
-    } : "none");
+    this.log(
+      "Last copy source:",
+      this.lastCopySource
+        ? {
+            filePath: this.lastCopySource.filePath,
+            line: this.lastCopySource.line,
+            content: this.lastCopySource.content,
+            age: Date.now() - this.lastCopySource.timestamp,
+          }
+        : "none",
+    );
 
-    if (!this.lastCopySource || Date.now() - this.lastCopySource.timestamp > maxAge) {
+    if (
+      !this.lastCopySource ||
+      Date.now() - this.lastCopySource.timestamp > maxAge
+    ) {
       this.log("No recent copy source found");
       new Notice(t("notice.no-recent-copy"));
       return;
@@ -427,8 +463,15 @@ export class LinkedCopiesFeature implements Feature {
     }
 
     // Find the source file and update it with block ID if needed
-    const sourceFile = this.plugin.app.vault.getAbstractFileByPath(this.lastCopySource.filePath);
-    this.log("Source file lookup:", this.lastCopySource.filePath, "found:", !!sourceFile);
+    const sourceFile = this.plugin.app.vault.getAbstractFileByPath(
+      this.lastCopySource.filePath,
+    );
+    this.log(
+      "Source file lookup:",
+      this.lastCopySource.filePath,
+      "found:",
+      !!sourceFile,
+    );
 
     if (!sourceFile || !(sourceFile instanceof TFile)) {
       this.log("Source file not found or not a TFile");
@@ -441,7 +484,12 @@ export class LinkedCopiesFeature implements Feature {
     const sourceLines = sourceContent.split("\n");
     const sourceLine = sourceLines[this.lastCopySource.line];
 
-    this.log("Source line at index", this.lastCopySource.line, ":", JSON.stringify(sourceLine));
+    this.log(
+      "Source line at index",
+      this.lastCopySource.line,
+      ":",
+      JSON.stringify(sourceLine),
+    );
 
     if (!sourceLine) {
       this.log("Source line is empty/undefined");
@@ -451,8 +499,10 @@ export class LinkedCopiesFeature implements Feature {
 
     // Check if source line still matches what we copied
     const sourceLineClean = this.store.removeBlockId(sourceLine);
-    const copiedLineClean = this.store.removeBlockId(this.lastCopySource.content);
-    
+    const copiedLineClean = this.store.removeBlockId(
+      this.lastCopySource.content,
+    );
+
     this.log("Comparing lines:");
     console.log("  Source (clean):", JSON.stringify(sourceLineClean));
     console.log("  Copied (clean):", JSON.stringify(copiedLineClean));
@@ -466,7 +516,7 @@ export class LinkedCopiesFeature implements Feature {
     // Get or create block ID for the source
     let sourceId = this.store.parseBlockId(sourceLine);
     this.log("Existing block ID:", sourceId);
-    
+
     // Check if block ID needs repair (missing space before ^)
     if (sourceId && this.store.hasBlockIdWithoutSpace(sourceLine)) {
       this.log("Block ID needs repair - missing space before ^");
@@ -503,8 +553,13 @@ export class LinkedCopiesFeature implements Feature {
     // Insert at cursor position
     const cursor = editor.getCursor();
     const currentLineContent = editor.getLine(cursor.line);
-    
-    this.log("Insert position - cursor line:", cursor.line, "content:", JSON.stringify(currentLineContent));
+
+    this.log(
+      "Insert position - cursor line:",
+      cursor.line,
+      "content:",
+      JSON.stringify(currentLineContent),
+    );
 
     if (currentLineContent.trim()) {
       // Insert on next line
@@ -514,7 +569,11 @@ export class LinkedCopiesFeature implements Feature {
     } else {
       // Replace empty line
       this.log("Replacing empty line");
-      editor.replaceRange(mirrorContent, { line: cursor.line, ch: 0 }, { line: cursor.line, ch: currentLineContent.length });
+      editor.replaceRange(
+        mirrorContent,
+        { line: cursor.line, ch: 0 },
+        { line: cursor.line, ch: currentLineContent.length },
+      );
     }
 
     this.log("Paste complete!");
@@ -588,7 +647,7 @@ export class LinkedCopiesFeature implements Feature {
     if (this.isSyncing || !this.settings.linkedCopies) {
       return;
     }
-    
+
     this.log("Sync triggered for file:", file.path);
 
     try {
@@ -614,8 +673,13 @@ export class LinkedCopiesFeature implements Feature {
       }
 
       // Step 1: Find all originals (^outliner- blocks) in this file that were modified
-      const originalsInFile: { id: string; line: number; content: string; children: string[] }[] = [];
-      
+      const originalsInFile: {
+        id: string;
+        line: number;
+        content: string;
+        children: string[];
+      }[] = [];
+
       for (let i = 0; i < lines.length; i++) {
         const blockId = this.store.parseBlockId(lines[i]);
         if (blockId) {
@@ -629,7 +693,10 @@ export class LinkedCopiesFeature implements Feature {
         }
       }
 
-      this.log("Found originals in modified file:", originalsInFile.map(o => o.id));
+      this.log(
+        "Found originals in modified file:",
+        originalsInFile.map((o) => o.id),
+      );
 
       // Step 2: For each original, find and update all mirrors across the vault (using cache)
       for (const original of originalsInFile) {
@@ -648,7 +715,6 @@ export class LinkedCopiesFeature implements Feature {
 
       // Step 3: Also update mirrors in this file (in case original is elsewhere)
       await this.updateMirrorsInFile(file);
-
     } finally {
       this.isSyncing = false;
     }
@@ -663,7 +729,7 @@ export class LinkedCopiesFeature implements Feature {
   ) {
     const fileContent = await this.plugin.app.vault.read(mirror.file);
     const lines = fileContent.split("\n");
-    
+
     // Get the original content without the block ID
     const originalContent = this.store.extractListContent(original.content);
     const mirrorPrefix = this.store.getLinePrefix(lines[mirror.line]);
@@ -690,9 +756,13 @@ export class LinkedCopiesFeature implements Feature {
       this.log("Updating children");
       console.log("  Current children:", currentChildren);
       console.log("  New children:", original.children);
-      
+
       // Remove old children and insert new ones
-      lines.splice(mirror.line + 1, currentChildren.length, ...original.children);
+      lines.splice(
+        mirror.line + 1,
+        currentChildren.length,
+        ...original.children,
+      );
       modified = true;
     }
 
@@ -716,7 +786,9 @@ export class LinkedCopiesFeature implements Feature {
       if (mirrorId) {
         const original = await this.store.findBlockById(mirrorId);
         if (original) {
-          const originalContent = this.store.extractListContent(original.content);
+          const originalContent = this.store.extractListContent(
+            original.content,
+          );
           const mirrorPrefix = this.store.getLinePrefix(lines[i]);
           const newMirrorLine = this.store.addMirrorMarker(
             `${mirrorPrefix}${originalContent}`,
@@ -739,7 +811,10 @@ export class LinkedCopiesFeature implements Feature {
   /**
    * Get child lines from an array of lines
    */
-  private getChildLinesFromArray(lines: string[], parentLine: number): string[] {
+  private getChildLinesFromArray(
+    lines: string[],
+    parentLine: number,
+  ): string[] {
     const children: string[] = [];
     const parentIndent = this.getIndentLevel(lines[parentLine]);
 
@@ -900,9 +975,9 @@ export class LinkedCopiesFeature implements Feature {
             const line = doc.line(lineNum);
             const lineText = line.text;
             const trimmed = lineText.trim();
-            
+
             if (!trimmed) continue;
-            
+
             const indent = lineText.match(/^(\s*)/)?.[1].length || 0;
 
             if (activeMirrorIndent !== null && indent <= activeMirrorIndent) {
@@ -914,7 +989,7 @@ export class LinkedCopiesFeature implements Feature {
             if (mirrorMatch) {
               builder.push({ from: line.from, deco: mirrorLineDeco });
               activeMirrorIndent = indent;
-              
+
               // Add class to marker text for hiding via CSS
               const markerIndex = lineText.indexOf(mirrorMatch[0]);
               if (markerIndex !== -1) {
@@ -924,14 +999,17 @@ export class LinkedCopiesFeature implements Feature {
                   deco: mirrorMarkerDeco,
                 });
               }
-            } else if (activeMirrorIndent !== null && indent > activeMirrorIndent) {
+            } else if (
+              activeMirrorIndent !== null &&
+              indent > activeMirrorIndent
+            ) {
               builder.push({ from: line.from, deco: mirrorLineDeco });
             } else {
               // Check for block ID
               const blockIdMatch = lineText.match(BLOCK_ID_REGEX);
               if (blockIdMatch) {
                 builder.push({ from: line.from, deco: linkedOriginalDeco });
-                
+
                 // Add class to block ID for hiding via CSS
                 const idIndex = lineText.lastIndexOf("^" + blockIdMatch[1]);
                 if (idIndex !== -1) {
@@ -948,10 +1026,10 @@ export class LinkedCopiesFeature implements Feature {
           // Sort by position and create ranges
           builder.sort((a, b) => a.from - b.from);
           return Decoration.set(
-            builder.map((item) => 
-              item.to !== undefined 
+            builder.map((item) =>
+              item.to !== undefined
                 ? item.deco.range(item.from, item.to)
-                : item.deco.range(item.from)
+                : item.deco.range(item.from),
             ),
             true,
           );
@@ -963,4 +1041,3 @@ export class LinkedCopiesFeature implements Feature {
     );
   }
 }
-

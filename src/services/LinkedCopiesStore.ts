@@ -7,7 +7,8 @@ export const BLOCK_ID_REGEX = /\s\^(outliner-[a-zA-Z0-9]+)$/;
 // Also match without space (for detection/repair)
 export const BLOCK_ID_REGEX_NO_SPACE = /\^(outliner-[a-zA-Z0-9]+)$/;
 // Mirror marker format: <!-- mirror:outliner-XXXXXX -->
-export const MIRROR_MARKER_REGEX = /<!--\s*mirror:(outliner-[a-zA-Z0-9]+)\s*-->/;
+export const MIRROR_MARKER_REGEX =
+  /<!--\s*mirror:(outliner-[a-zA-Z0-9]+)\s*-->/;
 
 export interface LinkedBlock {
   id: string;
@@ -48,7 +49,7 @@ export class LinkedCopiesStore {
     // First try with space (correct format)
     const match = line.match(BLOCK_ID_REGEX);
     if (match) return match[1];
-    
+
     // Fallback to without space (broken format, needs repair)
     const matchNoSpace = line.match(BLOCK_ID_REGEX_NO_SPACE);
     return matchNoSpace ? matchNoSpace[1] : null;
@@ -260,7 +261,10 @@ export class LinkedCopiesStore {
     // Remove block ID
     content = content.replace(/\s*\^outliner-[a-zA-Z0-9]+$/, "");
     // Remove mirror marker
-    content = content.replace(/\s*<!--\s*mirror:outliner-[a-zA-Z0-9]+\s*-->$/, "");
+    content = content.replace(
+      /\s*<!--\s*mirror:outliner-[a-zA-Z0-9]+\s*-->$/,
+      "",
+    );
     return content.trim();
   }
 
@@ -306,4 +310,3 @@ export class LinkedCopiesStore {
     return result;
   }
 }
-

@@ -7,9 +7,9 @@ import { IndentList } from "../operations/IndentList";
 import { MoveListDown } from "../operations/MoveListDown";
 import { MoveListUp } from "../operations/MoveListUp";
 import { OutdentList } from "../operations/OutdentList";
-import { t } from "../services/i18n";
 import { ObsidianSettings } from "../services/ObsidianSettings";
 import { OperationPerformer } from "../services/OperationPerformer";
+import { t } from "../services/i18n";
 import { createEditorCallback } from "../utils/createEditorCallback";
 
 export class ListsMovementCommands implements Feature {

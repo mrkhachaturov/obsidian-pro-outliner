@@ -1,6 +1,7 @@
+import { TFile } from "obsidian";
+
 import { StateEffect, StateField } from "@codemirror/state";
 import { EditorView, showPanel } from "@codemirror/view";
-import { TFile } from "obsidian";
 
 import { renderHeader } from "./utils/renderHeader";
 

@@ -2,8 +2,8 @@ import { App, Modal, Plugin } from "obsidian";
 
 import { Feature } from "./Feature";
 
-import { t } from "../services/i18n";
 import { Settings } from "../services/Settings";
+import { t } from "../services/i18n";
 
 interface AppHiddenProps {
   internalPlugins: {

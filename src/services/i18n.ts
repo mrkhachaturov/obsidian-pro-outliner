@@ -27,9 +27,12 @@ const translations = {
     // ===========================================
     // NOTICES (Mirror feature)
     // ===========================================
-    "notice.feature-disabled": "Linked copies feature is disabled. Enable it in settings.",
-    "notice.no-recent-copy": "No recent copy found. Copy a list item first, then use this command to paste as mirror.",
-    "notice.cannot-mirror-mirror": "Cannot create mirror of a mirror. Copy the original instead.",
+    "notice.feature-disabled":
+      "Linked copies feature is disabled. Enable it in settings.",
+    "notice.no-recent-copy":
+      "No recent copy found. Copy a list item first, then use this command to paste as mirror.",
+    "notice.cannot-mirror-mirror":
+      "Cannot create mirror of a mirror. Copy the original instead.",
     "notice.source-file-not-found": "Source file no longer exists.",
     "notice.source-line-not-found": "Source line no longer exists.",
     "notice.source-changed": "Source content has changed. Please copy again.",
@@ -38,34 +41,40 @@ const translations = {
     "notice.not-on-mirror-line": "Cursor is not on a mirror line",
     "notice.original-not-found": "Original block not found",
     "notice.navigated-to-original": "Navigated to original in {filename}",
-    "notice.mirror-link-removed": "Mirror link removed - this is now regular text",
+    "notice.mirror-link-removed":
+      "Mirror link removed - this is now regular text",
 
     // ===========================================
     // SETTINGS TAB
     // ===========================================
     "settings.tab-name": "Pro Outliner",
-    
+
     // Outliner settings
     "settings.outliner-title": "Outliner",
     "settings.style-lists": "Improve the style of your lists",
-    "settings.style-lists-desc": "Makes the bullets look cleaner with better spacing.",
+    "settings.style-lists-desc":
+      "Makes the bullets look cleaner with better spacing.",
     "settings.stick-cursor": "Stick the cursor to the content",
-    "settings.stick-cursor-desc": "Don't let the cursor move to the bullet position.",
+    "settings.stick-cursor-desc":
+      "Don't let the cursor move to the bullet position.",
     "settings.stick-cursor-bullet-checkbox": "Stick to bullet and checkbox",
     "settings.stick-cursor-content": "Stick to content",
     "settings.stick-cursor-never": "Never",
     "settings.better-enter": "Enhance the Enter key",
-    "settings.better-enter-desc": "Make the Enter key continue lists automatically.",
+    "settings.better-enter-desc":
+      "Make the Enter key continue lists automatically.",
     "settings.better-tab": "Enhance the Tab key",
     "settings.better-tab-desc": "Make the Tab key indent lists properly.",
     "settings.select-all": "Enhance the Select All behavior",
     "settings.select-all-desc": "Smarter selection when pressing Cmd/Ctrl+A.",
     "settings.vertical-lines": "Draw vertical indentation lines",
-    "settings.vertical-lines-desc": "Show vertical lines to visualize list hierarchy.",
+    "settings.vertical-lines-desc":
+      "Show vertical lines to visualize list hierarchy.",
     "settings.dnd": "Drag-and-Drop",
     "settings.dnd-desc": "Drag list items by their bullet point.",
     "settings.override-tab": "Override Tab behavior",
-    "settings.override-tab-desc": "Let the plugin control Tab key behavior in lists.",
+    "settings.override-tab-desc":
+      "Let the plugin control Tab key behavior in lists.",
 
     // Zoom settings
     "settings.zoom-title": "Zoom",
@@ -77,29 +86,36 @@ const translations = {
     // Linked copies settings
     "settings.linked-copies-title": "Linked Copies (Mirrors)",
     "settings.linked-copies": "Enable Linked Copies",
-    "settings.linked-copies-desc": "Create linked copies (mirrors) of list items. Copy an item normally, then use the 'Paste as linked copy' command. Changes to the original will sync to mirrors.",
+    "settings.linked-copies-desc":
+      "Create linked copies (mirrors) of list items. Copy an item normally, then use the 'Paste as linked copy' command. Changes to the original will sync to mirrors.",
 
     // Debug
     "settings.debug-title": "Advanced",
     "settings.debug": "Debug mode",
-    "settings.debug-desc": "Open DevTools (Command+Option+I or Control+Shift+I) to copy the debug logs.",
+    "settings.debug-desc":
+      "Open DevTools (Command+Option+I or Control+Shift+I) to copy the debug logs.",
 
     // Additional settings
     "settings.list-behavior-title": "List Behavior",
     "settings.stick-cursor-bullet-only": "Stick cursor out of bullets",
     "settings.vim-mode-o": "Vim-mode o/O inserts bullets",
-    "settings.vim-mode-o-desc": "Create a bullet when pressing o or O in Vim mode.",
+    "settings.vim-mode-o-desc":
+      "Create a bullet when pressing o or O in Vim mode.",
     "settings.ctrl-a": "Enhance the Ctrl+A or Cmd+A behavior",
-    "settings.ctrl-a-desc": "Press the hotkey once to select the current list item. Press the hotkey twice to select the entire list.",
+    "settings.ctrl-a-desc":
+      "Press the hotkey once to select the current list item. Press the hotkey twice to select the entire list.",
     "settings.auto-expand": "Auto-expand selection to full list items",
-    "settings.auto-expand-desc": "When selecting across multiple bullets, automatically expand the selection to include full list items with their children.",
+    "settings.auto-expand-desc":
+      "When selecting across multiple bullets, automatically expand the selection to include full list items with their children.",
     "settings.appearance-title": "Appearance",
-    "settings.style-lists-full-desc": "Styles are only compatible with built-in Obsidian themes and may not be compatible with other themes.",
+    "settings.style-lists-full-desc":
+      "Styles are only compatible with built-in Obsidian themes and may not be compatible with other themes.",
     "settings.vertical-lines-action": "Vertical indentation line click action",
     "settings.vertical-lines-action-none": "None",
     "settings.vertical-lines-action-zoom": "Zoom In",
     "settings.vertical-lines-action-fold": "Toggle Folding",
-    "settings.linked-copies-full-desc": "Create synchronized copies of list items. Copy normally, then use the 'Paste as linked copy' command (set your own hotkey in Settings → Hotkeys). Changes to the original automatically sync to mirrors.",
+    "settings.linked-copies-full-desc":
+      "Create synchronized copies of list items. Copy normally, then use the 'Paste as linked copy' command (set your own hotkey in Settings → Hotkeys). Changes to the original automatically sync to mirrors.",
   },
 
   ru: {
@@ -123,9 +139,12 @@ const translations = {
     // ===========================================
     // NOTICES (Mirror feature)
     // ===========================================
-    "notice.feature-disabled": "Функция связанных копий отключена. Включите её в настройках.",
-    "notice.no-recent-copy": "Нет недавней копии. Сначала скопируйте элемент списка, затем используйте эту команду.",
-    "notice.cannot-mirror-mirror": "Нельзя создать зеркало от зеркала. Скопируйте оригинал.",
+    "notice.feature-disabled":
+      "Функция связанных копий отключена. Включите её в настройках.",
+    "notice.no-recent-copy":
+      "Нет недавней копии. Сначала скопируйте элемент списка, затем используйте эту команду.",
+    "notice.cannot-mirror-mirror":
+      "Нельзя создать зеркало от зеркала. Скопируйте оригинал.",
     "notice.source-file-not-found": "Исходный файл больше не существует.",
     "notice.source-line-not-found": "Исходная строка больше не существует.",
     "notice.source-changed": "Исходный контент изменился. Скопируйте снова.",
@@ -140,13 +159,14 @@ const translations = {
     // SETTINGS TAB
     // ===========================================
     "settings.tab-name": "Pro Outliner",
-    
+
     // Outliner settings
     "settings.outliner-title": "Аутлайнер",
     "settings.style-lists": "Улучшить стиль списков",
     "settings.style-lists-desc": "Делает маркеры чище с лучшими отступами.",
     "settings.stick-cursor": "Привязать курсор к контенту",
-    "settings.stick-cursor-desc": "Не позволять курсору переходить на позицию маркера.",
+    "settings.stick-cursor-desc":
+      "Не позволять курсору переходить на позицию маркера.",
     "settings.stick-cursor-bullet-checkbox": "К маркеру и чекбоксу",
     "settings.stick-cursor-content": "К контенту",
     "settings.stick-cursor-never": "Никогда",
@@ -157,45 +177,56 @@ const translations = {
     "settings.select-all": "Улучшить Выделить всё",
     "settings.select-all-desc": "Умное выделение при нажатии Cmd/Ctrl+A.",
     "settings.vertical-lines": "Рисовать вертикальные линии отступов",
-    "settings.vertical-lines-desc": "Показывать вертикальные линии для визуализации иерархии.",
+    "settings.vertical-lines-desc":
+      "Показывать вертикальные линии для визуализации иерархии.",
     "settings.dnd": "Перетаскивание",
     "settings.dnd-desc": "Перетаскивайте элементы списка за маркер.",
     "settings.override-tab": "Переопределить поведение Tab",
-    "settings.override-tab-desc": "Плагин контролирует поведение Tab в списках.",
+    "settings.override-tab-desc":
+      "Плагин контролирует поведение Tab в списках.",
 
     // Zoom settings
     "settings.zoom-title": "Масштабирование",
     "settings.zoom-on-click": "Зум при клике на маркер",
-    "settings.zoom-on-click-desc": "Кликните на маркер чтобы увеличить этот элемент.",
+    "settings.zoom-on-click-desc":
+      "Кликните на маркер чтобы увеличить этот элемент.",
     "settings.zoom-on-click-desktop": "Десктоп",
     "settings.zoom-on-click-mobile": "Мобильный",
 
     // Linked copies settings
     "settings.linked-copies-title": "Связанные копии (Зеркала)",
     "settings.linked-copies": "Включить связанные копии",
-    "settings.linked-copies-desc": "Создавайте связанные копии (зеркала) элементов списка. Скопируйте элемент, затем используйте команду 'Вставить как связанную копию'. Изменения в оригинале синхронизируются с зеркалами.",
+    "settings.linked-copies-desc":
+      "Создавайте связанные копии (зеркала) элементов списка. Скопируйте элемент, затем используйте команду 'Вставить как связанную копию'. Изменения в оригинале синхронизируются с зеркалами.",
 
     // Debug
     "settings.debug-title": "Расширенные",
     "settings.debug": "Режим отладки",
-    "settings.debug-desc": "Откройте DevTools (Command+Option+I или Control+Shift+I) чтобы скопировать отладочные логи.",
+    "settings.debug-desc":
+      "Откройте DevTools (Command+Option+I или Control+Shift+I) чтобы скопировать отладочные логи.",
 
     // Additional settings
     "settings.list-behavior-title": "Поведение списков",
     "settings.stick-cursor-bullet-only": "Не пускать курсор на маркеры",
     "settings.vim-mode-o": "Vim-режим o/O вставляет маркеры",
-    "settings.vim-mode-o-desc": "Создавать маркер при нажатии o или O в режиме Vim.",
+    "settings.vim-mode-o-desc":
+      "Создавать маркер при нажатии o или O в режиме Vim.",
     "settings.ctrl-a": "Улучшить поведение Ctrl+A или Cmd+A",
-    "settings.ctrl-a-desc": "Первое нажатие выделяет текущий элемент списка. Второе нажатие выделяет весь список.",
+    "settings.ctrl-a-desc":
+      "Первое нажатие выделяет текущий элемент списка. Второе нажатие выделяет весь список.",
     "settings.auto-expand": "Авто-расширение выделения на полные элементы",
-    "settings.auto-expand-desc": "При выделении через несколько маркеров автоматически расширять выделение до полных элементов с их детьми.",
+    "settings.auto-expand-desc":
+      "При выделении через несколько маркеров автоматически расширять выделение до полных элементов с их детьми.",
     "settings.appearance-title": "Внешний вид",
-    "settings.style-lists-full-desc": "Стили совместимы только со встроенными темами Obsidian и могут не работать с другими темами.",
-    "settings.vertical-lines-action": "Действие при клике на вертикальную линию",
+    "settings.style-lists-full-desc":
+      "Стили совместимы только со встроенными темами Obsidian и могут не работать с другими темами.",
+    "settings.vertical-lines-action":
+      "Действие при клике на вертикальную линию",
     "settings.vertical-lines-action-none": "Ничего",
     "settings.vertical-lines-action-zoom": "Увеличить",
     "settings.vertical-lines-action-fold": "Свернуть/развернуть",
-    "settings.linked-copies-full-desc": "Создавайте синхронизированные копии элементов списка. Скопируйте обычным способом, затем используйте команду 'Вставить как связанную копию' (назначьте горячую клавишу в Настройки → Горячие клавиши). Изменения в оригинале автоматически синхронизируются с зеркалами.",
+    "settings.linked-copies-full-desc":
+      "Создавайте синхронизированные копии элементов списка. Скопируйте обычным способом, затем используйте команду 'Вставить как связанную копию' (назначьте горячую клавишу в Настройки → Горячие клавиши). Изменения в оригинале автоматически синхронизируются с зеркалами.",
   },
 } as const;
 
@@ -207,12 +238,12 @@ type Language = keyof typeof translations;
 function getCurrentLanguage(): Language {
   // Obsidian stores language in localStorage
   const lang = window.localStorage.getItem("language");
-  
+
   // Check if we have translations for this language
   if (lang && lang in translations) {
     return lang as Language;
   }
-  
+
   // Fallback to English
   return "en";
 }
@@ -244,4 +275,3 @@ export function t(
 export function getAvailableLanguages(): Language[] {
   return Object.keys(translations) as Language[];
 }
-
