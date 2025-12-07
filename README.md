@@ -157,8 +157,6 @@ Full support for multiple languages. Currently supports:
 - English
 - Russian
 
-The plugin automatically detects your Obsidian language setting.
-
 ## Settings
 
 ### List Behavior
