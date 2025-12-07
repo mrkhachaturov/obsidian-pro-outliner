@@ -561,16 +561,48 @@ export class LinkedCopiesFeature implements Feature {
       JSON.stringify(currentLineContent),
     );
 
+    // Get the indentation to use for insertion
+    let baseIndent = "";
+    if (currentLineContent.trim()) {
+      // Get indentation from current line (for inserting as sibling)
+      const indentMatch = currentLineContent.match(/^(\s*)/);
+      baseIndent = indentMatch ? indentMatch[1] : "";
+    } else {
+      // Empty line - check previous lines for context
+      for (let i = cursor.line - 1; i >= 0; i--) {
+        const prevLine = editor.getLine(i);
+        if (prevLine.trim()) {
+          const indentMatch = prevLine.match(/^(\s*)/);
+          baseIndent = indentMatch ? indentMatch[1] : "";
+          // If previous line is a list item, add one level of indentation (as child)
+          if (this.isListItem(prevLine)) {
+            baseIndent += "\t";
+          }
+          break;
+        }
+      }
+    }
+
+    this.log("Base indent:", JSON.stringify(baseIndent));
+
+    // Add indentation to mirror content
+    const indentedMirrorContent = mirrorContent
+      .split("\n")
+      .map((line) => (line.trim() ? baseIndent + line : line))
+      .join("\n");
+
+    this.log("Indented mirror content:", JSON.stringify(indentedMirrorContent));
+
     if (currentLineContent.trim()) {
       // Insert on next line
       const insertPos = { line: cursor.line + 1, ch: 0 };
       this.log("Inserting on next line at:", insertPos);
-      editor.replaceRange("\n" + mirrorContent, insertPos);
+      editor.replaceRange("\n" + indentedMirrorContent, insertPos);
     } else {
       // Replace empty line
       this.log("Replacing empty line");
       editor.replaceRange(
-        mirrorContent,
+        indentedMirrorContent,
         { line: cursor.line, ch: 0 },
         { line: cursor.line, ch: currentLineContent.length },
       );
