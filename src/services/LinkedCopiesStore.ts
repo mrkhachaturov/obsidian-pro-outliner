@@ -284,29 +284,15 @@ export class LinkedCopiesStore {
     children: string[],
     sourceId: string,
   ): string {
-    console.log("[LinkedCopiesStore] createMirrorContent called with:");
-    console.log("  originalLine:", JSON.stringify(originalLine));
-    console.log("  children:", children);
-    console.log("  sourceId:", sourceId);
-
     const prefix = this.getLinePrefix(originalLine);
-    console.log("  extracted prefix:", JSON.stringify(prefix));
-
     const content = this.extractListContent(originalLine);
-    console.log("  extracted content:", JSON.stringify(content));
-
     const reconstructed = `${prefix}${content}`;
-    console.log("  reconstructed line:", JSON.stringify(reconstructed));
-
     const mirrorLine = this.addMirrorMarker(reconstructed, sourceId);
-    console.log("  mirrorLine with marker:", JSON.stringify(mirrorLine));
 
     if (children.length === 0) {
       return mirrorLine;
     }
 
-    const result = [mirrorLine, ...children].join("\n");
-    console.log("  final result:", JSON.stringify(result));
-    return result;
+    return [mirrorLine, ...children].join("\n");
   }
 }

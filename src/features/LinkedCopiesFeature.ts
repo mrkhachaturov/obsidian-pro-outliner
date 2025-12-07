@@ -275,12 +275,6 @@ export class LinkedCopiesFeature implements Feature {
       if (lineToModify < lines.length) {
         const cleanLine = this.store.removeMirrorMarker(lines[lineToModify]);
         lines[lineToModify] = cleanLine;
-        console.log(
-          "[LinkedCopies] breakMirrorLink: modified line",
-          lineToModify,
-        );
-        console.log("[LinkedCopies] breakMirrorLink: before:", line);
-        console.log("[LinkedCopies] breakMirrorLink: after:", cleanLine);
       }
       return lines.join("\n");
     });
@@ -296,56 +290,34 @@ export class LinkedCopiesFeature implements Feature {
    * Remove block ID from original if no mirrors remain
    */
   private async cleanupOrphanedBlockId(sourceId: string) {
-    console.log("[LinkedCopies] cleanupOrphanedBlockId called for:", sourceId);
+    this.log("cleanupOrphanedBlockId called for:", sourceId);
 
     // Find remaining mirrors
     const mirrors = await this.store.findMirrorsById(sourceId);
-    console.log("[LinkedCopies] Found mirrors:", mirrors.length);
+    this.log("Found mirrors:", mirrors.length);
 
     if (mirrors.length === 0) {
-      console.log(
-        "[LinkedCopies] No mirrors remaining - removing block ID from original",
-      );
+      this.log("No mirrors remaining - removing block ID from original");
 
       // Find and clean up the original
       const original = await this.store.findBlockById(sourceId);
-      console.log(
-        "[LinkedCopies] Original found:",
-        original ? original.file.path : "null",
-      );
+      this.log("Original found:", original ? original.file.path : "null");
 
       if (original) {
         const content = await this.plugin.app.vault.read(original.file);
         const lines = content.split("\n");
 
-        console.log(
-          "[LinkedCopies] Original line before:",
-          lines[original.line],
-        );
-
         // Remove block ID from the original line
         const cleanedLine = this.store.removeBlockId(lines[original.line]);
         lines[original.line] = cleanedLine;
 
-        console.log("[LinkedCopies] Original line after:", cleanedLine);
-
         await this.plugin.app.vault.modify(original.file, lines.join("\n"));
-        console.log("[LinkedCopies] File modified successfully");
+        this.log("Block ID removed from original");
       }
     } else {
-      console.log(
-        "[LinkedCopies] Still",
-        mirrors.length,
-        "mirrors remaining for",
-        sourceId,
-      );
+      this.log("Still", mirrors.length, "mirrors remaining for", sourceId);
       mirrors.forEach((m, i) =>
-        console.log(
-          `[LinkedCopies]   Mirror ${i}:`,
-          m.file.path,
-          "line",
-          m.line,
-        ),
+        this.log(`[LinkedCopies]   Mirror ${i}:`, m.file.path, "line", m.line),
       );
     }
   }
@@ -504,8 +476,8 @@ export class LinkedCopiesFeature implements Feature {
     );
 
     this.log("Comparing lines:");
-    console.log("  Source (clean):", JSON.stringify(sourceLineClean));
-    console.log("  Copied (clean):", JSON.stringify(copiedLineClean));
+    this.log("  Source (clean):", JSON.stringify(sourceLineClean));
+    this.log("  Copied (clean):", JSON.stringify(copiedLineClean));
 
     if (sourceLineClean !== copiedLineClean) {
       this.log("Source content has changed");
@@ -538,9 +510,9 @@ export class LinkedCopiesFeature implements Feature {
 
     // Create mirror content
     this.log("Creating mirror content with:");
-    console.log("  sourceLine:", JSON.stringify(sourceLine));
-    console.log("  children:", this.lastCopySource.children);
-    console.log("  sourceId:", sourceId);
+    this.log("  sourceLine:", JSON.stringify(sourceLine));
+    this.log("  children:", this.lastCopySource.children);
+    this.log("  sourceId:", sourceId);
 
     const mirrorContent = this.store.createMirrorContent(
       sourceLine,
@@ -771,8 +743,8 @@ export class LinkedCopiesFeature implements Feature {
     );
 
     this.log("Updating mirror at line", mirror.line);
-    console.log("  Current:", JSON.stringify(lines[mirror.line]));
-    console.log("  New:", JSON.stringify(newMirrorLine));
+    this.log("  Current:", JSON.stringify(lines[mirror.line]));
+    this.log("  New:", JSON.stringify(newMirrorLine));
 
     let modified = false;
 
@@ -796,8 +768,8 @@ export class LinkedCopiesFeature implements Feature {
       return mirrorBaseIndent + child;
     });
 
-    console.log("  Current children:", currentChildren);
-    console.log("  New children (adjusted):", adjustedChildren);
+    this.log("  Current children:", currentChildren);
+    this.log("  New children (adjusted):", adjustedChildren);
 
     if (JSON.stringify(currentChildren) !== JSON.stringify(adjustedChildren)) {
       this.log("Updating children");
