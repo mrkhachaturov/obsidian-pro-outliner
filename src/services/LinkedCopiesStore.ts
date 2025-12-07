@@ -293,6 +293,9 @@ export class LinkedCopiesStore {
       return mirrorLine;
     }
 
-    return [mirrorLine, ...children].join("\n");
+    // Remove any block IDs from children (they should only exist in the original)
+    const cleanedChildren = children.map((child) => this.removeBlockId(child));
+
+    return [mirrorLine, ...cleanedChildren].join("\n");
   }
 }

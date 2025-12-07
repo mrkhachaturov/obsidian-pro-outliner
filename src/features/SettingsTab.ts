@@ -178,6 +178,16 @@ class ObsidianProOutlinerPluginSettingTab extends PluginSettingTab {
         });
       });
 
+    new Setting(containerEl)
+      .setName(t("settings.show-block-ids"))
+      .setDesc(t("settings.show-block-ids-desc"))
+      .addToggle((toggle) => {
+        toggle.setValue(this.settings.showBlockIds).onChange(async (value) => {
+          this.settings.showBlockIds = value;
+          await this.settings.save();
+        });
+      });
+
     containerEl.createEl("h2", { text: t("settings.debug-title") });
 
     new Setting(containerEl)

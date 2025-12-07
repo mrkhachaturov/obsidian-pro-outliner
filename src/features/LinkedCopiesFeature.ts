@@ -58,7 +58,26 @@ export class LinkedCopiesFeature implements Feature {
     }
   }
 
+  /**
+   * Update CSS class based on showBlockIds setting
+   */
+  private updateShowBlockIdsClass() {
+    if (this.settings.showBlockIds) {
+      document.body.classList.add("outliner-show-block-ids");
+    } else {
+      document.body.classList.remove("outliner-show-block-ids");
+    }
+  }
+
   async load() {
+    // Apply initial showBlockIds class
+    this.updateShowBlockIdsClass();
+
+    // Listen for settings changes
+    this.settings.onChange("showBlockIds", () => {
+      this.updateShowBlockIdsClass();
+    });
+
     // Register command for pasting as linked copy (no default hotkey - user can set their own)
     this.plugin.addCommand({
       id: "paste-as-linked-copy",
@@ -66,6 +85,16 @@ export class LinkedCopiesFeature implements Feature {
       icon: "clipboard-paste",
       editorCallback: (editor: Editor, view: MarkdownView) => {
         this.pasteAsLinkedCopy(editor, view);
+      },
+    });
+
+    // Register command for pasting as block link (just a wikilink, no content sync)
+    this.plugin.addCommand({
+      id: "paste-as-block-link",
+      name: t("cmd.paste-as-block-link"),
+      icon: "link",
+      editorCallback: (editor: Editor, view: MarkdownView) => {
+        this.pasteAsBlockLink(editor, view);
       },
     });
 
@@ -123,6 +152,8 @@ export class LinkedCopiesFeature implements Feature {
       clearTimeout(this.syncDebounceTimer);
     }
     this.mirrorCache.clear();
+    // Clean up CSS class
+    document.body.classList.remove("outliner-show-block-ids");
   }
 
   /**
@@ -434,6 +465,14 @@ export class LinkedCopiesFeature implements Feature {
       return;
     }
 
+    // PROTECTION: Only allow mirroring root-level items (indent level 0)
+    const sourceIndent = this.getIndentLevel(this.lastCopySource.content);
+    if (sourceIndent > 0) {
+      this.log("Source is not at root level - cannot create mirror");
+      new Notice(t("notice.only-root-level-mirror"));
+      return;
+    }
+
     // Find the source file and update it with block ID if needed
     const sourceFile = this.plugin.app.vault.getAbstractFileByPath(
       this.lastCopySource.filePath,
@@ -582,6 +621,99 @@ export class LinkedCopiesFeature implements Feature {
 
     this.log("Paste complete!");
     new Notice(t("notice.pasted-as-mirror"));
+  }
+
+  /**
+   * Paste clipboard content as a block link (wikilink to the source block)
+   * Creates: [[SourceNote#^outliner-xxx|Display text]]
+   */
+  private async pasteAsBlockLink(editor: Editor, _view: MarkdownView) {
+    this.log("Paste as block link triggered");
+
+    if (!this.settings.linkedCopies) {
+      this.log("Feature disabled");
+      new Notice(t("notice.feature-disabled"));
+      return;
+    }
+
+    // Check if we have a recent copy source (within 5 minutes)
+    const maxAge = 5 * 60 * 1000;
+    if (
+      !this.lastCopySource ||
+      Date.now() - this.lastCopySource.timestamp > maxAge
+    ) {
+      this.log("No recent copy source found");
+      new Notice(t("notice.no-recent-copy"));
+      return;
+    }
+
+    // Find the source file
+    const sourceFile = this.plugin.app.vault.getAbstractFileByPath(
+      this.lastCopySource.filePath,
+    );
+
+    if (!sourceFile || !(sourceFile instanceof TFile)) {
+      this.log("Source file not found");
+      new Notice(t("notice.source-file-not-found"));
+      return;
+    }
+
+    // Read the source file to get current content
+    const sourceContent = await this.plugin.app.vault.read(sourceFile);
+    const sourceLines = sourceContent.split("\n");
+    const sourceLine = sourceLines[this.lastCopySource.line];
+
+    if (!sourceLine) {
+      this.log("Source line is empty/undefined");
+      new Notice(t("notice.source-line-not-found"));
+      return;
+    }
+
+    // Check if source line still matches what we copied
+    const sourceLineClean = this.store.removeBlockId(sourceLine);
+    const copiedLineClean = this.store.removeBlockId(
+      this.lastCopySource.content,
+    );
+
+    if (sourceLineClean !== copiedLineClean) {
+      this.log("Source content has changed");
+      new Notice(t("notice.source-changed"));
+      return;
+    }
+
+    // Get or create block ID for the source
+    let sourceId = this.store.parseBlockId(sourceLine);
+
+    // Check if block ID needs repair (missing space before ^)
+    if (sourceId && this.store.hasBlockIdWithoutSpace(sourceLine)) {
+      this.log("Block ID needs repair - missing space before ^");
+      const repairedLine = this.store.repairBlockId(sourceLine);
+      sourceLines[this.lastCopySource.line] = repairedLine;
+      await this.plugin.app.vault.modify(sourceFile, sourceLines.join("\n"));
+    } else if (!sourceId) {
+      // Generate new ID and update the source file
+      sourceId = this.store.generateId();
+      this.log("Generated new ID:", sourceId);
+      const updatedSourceLine = this.store.addBlockId(sourceLine, sourceId);
+      sourceLines[this.lastCopySource.line] = updatedSourceLine;
+      await this.plugin.app.vault.modify(sourceFile, sourceLines.join("\n"));
+    }
+
+    // Extract the display text (content without prefix/markers)
+    const displayText = this.store.extractListContent(sourceLine);
+
+    // Build the wikilink: [[SourceNote#^block-id|Display text]]
+    const sourceNoteName = sourceFile.basename;
+    const wikilink = `[[${sourceNoteName}#^${sourceId}|${displayText}]]`;
+
+    this.log("Created wikilink:", wikilink);
+
+    // Insert at cursor position
+    const cursor = editor.getCursor();
+    editor.replaceRange(wikilink, cursor);
+
+    this.log("Block link pasted!");
+    new Notice(t("notice.pasted-as-block-link"));
   }
 
   /**
@@ -763,9 +895,12 @@ export class LinkedCopiesFeature implements Feature {
     const mirrorBaseIndent = mirrorIndentMatch ? mirrorIndentMatch[1] : "";
 
     // Adjust original children to match mirror's indentation level
+    // Also remove any block IDs from children (they should only exist in the original)
     const adjustedChildren = original.children.map((child) => {
+      // Remove block ID if present
+      const childWithoutBlockId = this.store.removeBlockId(child);
       // Each child should have mirror's base indent added
-      return mirrorBaseIndent + child;
+      return mirrorBaseIndent + childWithoutBlockId;
     });
 
     this.log("  Current children:", currentChildren);

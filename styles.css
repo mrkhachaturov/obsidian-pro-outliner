@@ -282,14 +282,20 @@ html body.outliner-plugin-dnd.outliner-plugin-dragging {
   opacity: 0.8;
 }
 
-/* Hide mirror marker completely */
-.outliner-plugin-mirror-marker {
+/* Hide mirror marker and block ID (unless showBlockIds is enabled) */
+body:not(.outliner-show-block-ids) .outliner-plugin-mirror-marker {
   display: none !important;
 }
 
-/* Hide block ID completely */
-.outliner-plugin-block-id {
+body:not(.outliner-show-block-ids) .outliner-plugin-block-id {
   display: none !important;
+}
+
+/* Style markers when visible (for manual editing) */
+body.outliner-show-block-ids .outliner-plugin-mirror-marker,
+body.outliner-show-block-ids .outliner-plugin-block-id {
+  color: var(--text-faint);
+  font-size: 0.85em;
 }
 
 /* Original block indicator - subtle ring */

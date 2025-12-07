@@ -105,6 +105,7 @@ Create synchronized copies of outline blocks that stay in sync with the original
 | Command                        | Description                                              |
 |--------------------------------|----------------------------------------------------------|
 | Paste as linked copy (mirror)  | Paste copied outline as a mirror that syncs with original |
+| Paste as block link            | Paste a wikilink to the copied block (no sync, just navigation) |
 | Go to original                 | Navigate from mirror to its source block                  |
 | Break mirror link              | Convert mirror to regular text (stops syncing)            |
 
@@ -114,6 +115,7 @@ Create synchronized copies of outline blocks that stay in sync with the original
 - **Visual indicator:** Mirrors show a dashed bullet outline
 - **Cascade delete:** When original is deleted, mirrors are removed
 - **Auto-repair:** Block IDs are automatically repaired if corrupted
+- **Root-level only:** Only top-level list items can be mirrored (nested items use block links)
 
 **Setting:** Linked Copies (Mirrors) — On by default
 
@@ -190,6 +192,7 @@ Full support for multiple languages. Currently supports:
 | Setting                                | Default |
 |----------------------------------------|:-------:|
 | Enable Linked Copies (Mirrors)         | On      |
+| Show block IDs and mirror markers      | Off     |
 
 ### Debug
 

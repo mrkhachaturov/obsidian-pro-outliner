@@ -24,6 +24,7 @@ interface SettingsObject {
   zoomOnClickMobile: boolean;
   // Linked copies settings
   linkedCopies: boolean;
+  showBlockIds: boolean;
 }
 
 const DEFAULT_SETTINGS: SettingsObject = {
@@ -44,6 +45,7 @@ const DEFAULT_SETTINGS: SettingsObject = {
   zoomOnClickMobile: false,
   // Linked copies settings
   linkedCopies: true,
+  showBlockIds: false,
 };
 
 export interface Storage {
@@ -190,6 +192,14 @@ export class Settings {
 
   set linkedCopies(value: boolean) {
     this.set("linkedCopies", value);
+  }
+
+  get showBlockIds() {
+    return this.values.showBlockIds;
+  }
+
+  set showBlockIds(value: boolean) {
+    this.set("showBlockIds", value);
   }
 
   // Simple callback for any change

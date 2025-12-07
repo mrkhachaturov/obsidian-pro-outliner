@@ -1,6 +1,6 @@
 import { Operation } from "./Operation";
 
-import { Root, cmpPos, maxPos, minPos } from "../root";
+import { List, Root, cmpPos, maxPos, minPos } from "../root";
 
 export class ExpandSelectionToFullItems implements Operation {
   private stopPropagation = false;
@@ -14,6 +14,20 @@ export class ExpandSelectionToFullItems implements Operation {
 
   shouldUpdate() {
     return this.updated;
+  }
+
+  /**
+   * Check if listA is an ancestor of listB
+   */
+  private isAncestor(listA: List, listB: List): boolean {
+    let current = listB.getParent();
+    while (current) {
+      if (current === listA) {
+        return true;
+      }
+      current = current.getParent();
+    }
+    return false;
   }
 
   perform() {
@@ -53,7 +67,16 @@ export class ExpandSelectionToFullItems implements Operation {
 
     // Calculate the expanded range
     const expandedStart = listAtFrom.getFirstLineContentStartAfterCheckbox();
-    const expandedEnd = listAtTo.getContentEndIncludingChildren();
+
+    // If listAtFrom is an ancestor of listAtTo, expand to include ALL children of listAtFrom
+    // This handles the case: selecting from parent down to any child should select all children
+    let expandedEnd;
+    if (this.isAncestor(listAtFrom, listAtTo)) {
+      // Expand to include all descendants of the parent
+      expandedEnd = listAtFrom.getContentEndIncludingChildren();
+    } else {
+      expandedEnd = listAtTo.getContentEndIncludingChildren();
+    }
 
     // Check if selection is already expanded (to avoid infinite loops)
     if (

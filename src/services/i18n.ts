@@ -11,6 +11,7 @@ const translations = {
     // COMMANDS
     // ===========================================
     "cmd.paste-as-linked-copy": "Paste as linked copy (mirror)",
+    "cmd.paste-as-block-link": "Paste as block link",
     "cmd.go-to-original": "Go to original (from mirror)",
     "cmd.break-mirror-link": "Break mirror link (convert to regular text)",
     "cmd.zoom-in": "Zoom in",
@@ -33,10 +34,13 @@ const translations = {
       "No recent copy found. Copy a list item first, then use this command to paste as mirror.",
     "notice.cannot-mirror-mirror":
       "Cannot create mirror of a mirror. Copy the original instead.",
+    "notice.only-root-level-mirror":
+      "Only root-level items can be mirrored. Copy an item at the top level of the list.",
     "notice.source-file-not-found": "Source file no longer exists.",
     "notice.source-line-not-found": "Source line no longer exists.",
     "notice.source-changed": "Source content has changed. Please copy again.",
     "notice.pasted-as-mirror": "Pasted as linked copy (mirror)",
+    "notice.pasted-as-block-link": "Pasted as block link",
     "notice.not-on-mirror": "Cursor is not on a mirror block",
     "notice.not-on-mirror-line": "Cursor is not on a mirror line",
     "notice.original-not-found": "Original block not found",
@@ -116,6 +120,9 @@ const translations = {
     "settings.vertical-lines-action-fold": "Toggle Folding",
     "settings.linked-copies-full-desc":
       "Create synchronized copies of list items. Copy normally, then use the 'Paste as linked copy' command (set your own hotkey in Settings → Hotkeys). Changes to the original automatically sync to mirrors.",
+    "settings.show-block-ids": "Show block IDs and mirror markers",
+    "settings.show-block-ids-desc":
+      "Show block IDs (^outliner-xxx) and mirror markers in the editor. Useful for manual cleanup.",
   },
 
   ru: {
@@ -123,6 +130,7 @@ const translations = {
     // COMMANDS
     // ===========================================
     "cmd.paste-as-linked-copy": "Вставить как связанную копию (зеркало)",
+    "cmd.paste-as-block-link": "Вставить как ссылку на блок",
     "cmd.go-to-original": "Перейти к оригиналу",
     "cmd.break-mirror-link": "Разорвать связь (преобразовать в обычный текст)",
     "cmd.zoom-in": "Увеличить (зум)",
@@ -145,10 +153,13 @@ const translations = {
       "Нет недавней копии. Сначала скопируйте элемент списка, затем используйте эту команду.",
     "notice.cannot-mirror-mirror":
       "Нельзя создать зеркало от зеркала. Скопируйте оригинал.",
+    "notice.only-root-level-mirror":
+      "Можно создать зеркало только для элементов верхнего уровня. Скопируйте элемент на нулевом уровне списка.",
     "notice.source-file-not-found": "Исходный файл больше не существует.",
     "notice.source-line-not-found": "Исходная строка больше не существует.",
     "notice.source-changed": "Исходный контент изменился. Скопируйте снова.",
     "notice.pasted-as-mirror": "Вставлено как связанная копия (зеркало)",
+    "notice.pasted-as-block-link": "Вставлено как ссылка на блок",
     "notice.not-on-mirror": "Курсор не на зеркальном блоке",
     "notice.not-on-mirror-line": "Курсор не на строке зеркала",
     "notice.original-not-found": "Оригинальный блок не найден",
@@ -227,6 +238,9 @@ const translations = {
     "settings.vertical-lines-action-fold": "Свернуть/развернуть",
     "settings.linked-copies-full-desc":
       "Создавайте синхронизированные копии элементов списка. Скопируйте обычным способом, затем используйте команду 'Вставить как связанную копию' (назначьте горячую клавишу в Настройки → Горячие клавиши). Изменения в оригинале автоматически синхронизируются с зеркалами.",
+    "settings.show-block-ids": "Показывать ID блоков и маркеры зеркал",
+    "settings.show-block-ids-desc":
+      "Показывать ID блоков (^outliner-xxx) и маркеры зеркал в редакторе. Полезно для ручной очистки.",
   },
 } as const;
 
