@@ -58,7 +58,9 @@ jobs:
           body: |
             ## Pro Outliner v${{ steps.version.outputs.VERSION }}
 
-            ${{ inputs.notes || 'See CHANGELOG.md for details.' }}
+            ${{ inputs.notes }}
+
+            📋 **[View full CHANGELOG](https://github.com/mrkhachaturov/obsidian-pro-outliner/blob/main/CHANGELOG.md)**
 
             ### Installation
 
