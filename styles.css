@@ -248,3 +248,53 @@ html body.outliner-plugin-dnd.outliner-plugin-dragging {
   border-bottom-color: var(--background-modifier-border);
 }
 
+/* =================================================================
+   LINKED COPIES (MIRRORS) STYLES
+   ================================================================= */
+
+/* Mirror bullet: smaller filled center with dashed outline (like Tana) */
+.outliner-plugin-mirror-line .list-bullet::after {
+  /* Smaller bullet */
+  width: 0.28em !important;
+  height: 0.28em !important;
+  /* Filled center */
+  background-color: var(--text-muted) !important;
+  /* Dashed outline */
+  outline: 1px dashed var(--text-faint);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+/* Mirror bullet when collapsed - accent color */
+.outliner-plugin-mirror-line .cm-fold-indicator.is-collapsed ~ * .list-bullet::after,
+.outliner-plugin-mirror-line:has(.is-collapsed) .list-bullet::after {
+  background-color: var(--text-accent) !important;
+  outline-color: var(--text-accent);
+}
+
+/* Visual indicator for mirror breadcrumbs - subtle accent on first item (file name) */
+.zoom-plugin-header-mirror .zoom-plugin-title:first-of-type {
+  color: var(--text-accent);
+}
+
+.zoom-plugin-header-mirror .zoom-plugin-title:first-of-type::before {
+  content: "◉ ";
+  opacity: 0.8;
+}
+
+/* Hide mirror marker completely */
+.outliner-plugin-mirror-marker {
+  display: none !important;
+}
+
+/* Hide block ID completely */
+.outliner-plugin-block-id {
+  display: none !important;
+}
+
+/* Original block indicator - subtle ring */
+.outliner-plugin-linked-original .list-bullet::after {
+  box-shadow: 0 0 0 2px var(--background-primary),
+              0 0 0 3px currentColor;
+}
+

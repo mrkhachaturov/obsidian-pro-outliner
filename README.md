@@ -98,6 +98,25 @@ Click on any bullet point to zoom into that list item.
 
 When zoomed in, a breadcrumb header shows your location in the document hierarchy. Click any breadcrumb to navigate.
 
+### Linked Copies (Mirrors)
+
+Create synchronized copies of outline blocks that stay in sync with the original — similar to Tana's mirror feature.
+
+| Command                        | Description                                              |
+|--------------------------------|----------------------------------------------------------|
+| Paste as linked copy (mirror)  | Paste copied outline as a mirror that syncs with original |
+| Go to original                 | Navigate from mirror to its source block                  |
+| Break mirror link              | Convert mirror to regular text (stops syncing)            |
+
+**Features:**
+- **One-way sync:** Changes in the original automatically update all mirrors
+- **Cross-note support:** Mirrors can be in different files
+- **Visual indicator:** Mirrors show a dashed bullet outline
+- **Cascade delete:** When original is deleted, mirrors are removed
+- **Auto-repair:** Block IDs are automatically repaired if corrupted
+
+**Setting:** Linked Copies (Mirrors) — On by default
+
 ## Enhancements Over Original Plugins
 
 This combined plugin includes the following enhancements:
@@ -128,6 +147,18 @@ Click "..." to expand and see the full path. Each breadcrumb shows a tooltip wit
 
 Hover over a truncated breadcrumb to smoothly expand and reveal its full title. The current level (last breadcrumb) always shows its full title.
 
+### 5. Linked Copies (Mirrors)
+
+Create linked copies of outline blocks that automatically sync with the original. Inspired by Tana's mirror feature. Mirrors are visually distinguished with a dashed bullet outline.
+
+### 6. Internationalization (i18n)
+
+Full support for multiple languages. Currently supports:
+- English
+- Russian
+
+The plugin automatically detects your Obsidian language setting.
+
 ## Settings
 
 ### List Behavior
@@ -155,6 +186,12 @@ Hover over a truncated breadcrumb to smoothly expand and reveal its full title. 
 | Setting                                | Default |
 |----------------------------------------|:-------:|
 | Zoom in when clicking on the bullet    | On      |
+
+### Linked Copies
+
+| Setting                                | Default |
+|----------------------------------------|:-------:|
+| Enable Linked Copies (Mirrors)         | On      |
 
 ### Debug
 

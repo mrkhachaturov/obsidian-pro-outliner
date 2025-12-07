@@ -7,6 +7,7 @@ import { IndentList } from "../operations/IndentList";
 import { MoveListDown } from "../operations/MoveListDown";
 import { MoveListUp } from "../operations/MoveListUp";
 import { OutdentList } from "../operations/OutdentList";
+import { t } from "../services/i18n";
 import { ObsidianSettings } from "../services/ObsidianSettings";
 import { OperationPerformer } from "../services/OperationPerformer";
 import { createEditorCallback } from "../utils/createEditorCallback";
@@ -22,7 +23,7 @@ export class ListsMovementCommands implements Feature {
     this.plugin.addCommand({
       id: "move-list-item-up",
       icon: "arrow-up",
-      name: "Move list and sublists up",
+      name: t("cmd.move-list-up"),
       editorCallback: createEditorCallback(this.moveListUp),
       hotkeys: [
         {
@@ -35,7 +36,7 @@ export class ListsMovementCommands implements Feature {
     this.plugin.addCommand({
       id: "move-list-item-down",
       icon: "arrow-down",
-      name: "Move list and sublists down",
+      name: t("cmd.move-list-down"),
       editorCallback: createEditorCallback(this.moveListDown),
       hotkeys: [
         {
@@ -48,7 +49,7 @@ export class ListsMovementCommands implements Feature {
     this.plugin.addCommand({
       id: "indent-list",
       icon: "indent",
-      name: "Indent the list and sublists",
+      name: t("cmd.indent-list"),
       editorCallback: createEditorCallback(this.indentList),
       hotkeys: [],
     });
@@ -56,7 +57,7 @@ export class ListsMovementCommands implements Feature {
     this.plugin.addCommand({
       id: "outdent-list",
       icon: "outdent",
-      name: "Outdent the list and sublists",
+      name: t("cmd.outdent-list"),
       editorCallback: createEditorCallback(this.outdentList),
       hotkeys: [],
     });

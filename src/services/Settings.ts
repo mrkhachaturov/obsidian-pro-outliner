@@ -22,6 +22,8 @@ interface SettingsObject {
   // Zoom settings
   zoomOnClick: boolean;
   zoomOnClickMobile: boolean;
+  // Linked copies settings
+  linkedCopies: boolean;
 }
 
 const DEFAULT_SETTINGS: SettingsObject = {
@@ -40,6 +42,8 @@ const DEFAULT_SETTINGS: SettingsObject = {
   // Zoom settings
   zoomOnClick: true,
   zoomOnClickMobile: false,
+  // Linked copies settings
+  linkedCopies: true,
 };
 
 export interface Storage {
@@ -180,6 +184,14 @@ export class Settings {
     }
   }
 
+  get linkedCopies() {
+    return this.values.linkedCopies;
+  }
+
+  set linkedCopies(value: boolean) {
+    this.set("linkedCopies", value);
+  }
+
   // Simple callback for any change
   onChange(cb: Callback): void;
   // Key-specific callback
@@ -193,7 +205,7 @@ export class Settings {
     } else {
       if (!this.keyCallbacks.has(keyOrCb)) {
         this.keyCallbacks.set(keyOrCb, new Set());
-      }
+  }
       this.keyCallbacks.get(keyOrCb)!.add(cb as KeyCallback<SettingsKey>);
     }
   }

@@ -2,6 +2,7 @@ import { App, Modal, Plugin } from "obsidian";
 
 import { Feature } from "./Feature";
 
+import { t } from "../services/i18n";
 import { Settings } from "../services/Settings";
 
 interface AppHiddenProps {
@@ -90,7 +91,7 @@ export class SystemInfo implements Feature {
   async load() {
     this.plugin.addCommand({
       id: "system-info",
-      name: "Show System Info",
+      name: t("cmd.show-system-info"),
       callback: this.callback,
       hotkeys: [
         {

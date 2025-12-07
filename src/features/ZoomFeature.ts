@@ -10,6 +10,7 @@ import { isFoldingEnabled } from "./zoom-utils/isFoldingEnabled";
 import { CalculateRangeForZooming } from "../logic/CalculateRangeForZooming";
 import { CollectBreadcrumbs } from "../logic/CollectBreadcrumbs";
 import { KeepOnlyZoomedContentVisible } from "../logic/KeepOnlyZoomedContentVisible";
+import { t } from "../services/i18n";
 import { Logger } from "../services/Logger";
 import { getEditorViewFromEditor } from "../utils/getEditorViewFromEditor";
 
@@ -176,7 +177,7 @@ export class ZoomFeature implements Feature {
 
     this.plugin.addCommand({
       id: "zoom-in",
-      name: "Zoom in",
+      name: t("cmd.zoom-in"),
       icon: "zoom-in",
       editorCallback: (editor) => {
         const view = getEditorViewFromEditor(editor);
@@ -192,7 +193,7 @@ export class ZoomFeature implements Feature {
 
     this.plugin.addCommand({
       id: "zoom-out",
-      name: "Zoom out the entire document",
+      name: t("cmd.zoom-out"),
       icon: "zoom-out",
       editorCallback: (editor) => this.zoomOut(getEditorViewFromEditor(editor)),
       hotkeys: [
@@ -205,7 +206,7 @@ export class ZoomFeature implements Feature {
 
     this.plugin.addCommand({
       id: "zoom-out-one-level",
-      name: "Zoom out one level",
+      name: t("cmd.zoom-out-one-level"),
       icon: "chevron-up",
       editorCallback: (editor) =>
         this.zoomOutOneLevel(getEditorViewFromEditor(editor)),

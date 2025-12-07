@@ -1,4 +1,11 @@
-/* lists and bullets */
+/* =================================================================
+   Obsidian Pro Outliner - Combined Styles
+   Combines styles from Obsidian Outliner and Obsidian Zoom
+   ================================================================= */
+
+/* =================================================================
+   OUTLINER STYLES - Lists and Bullets
+   ================================================================= */
 .outliner-plugin-better-lists .cm-s-obsidian .HyperMD-list-line {
   /* padding-top: 0.4em; */
 }
@@ -13,7 +20,9 @@
   background-color: var(--text-muted);
 }
 
-/* lines */
+/* =================================================================
+   OUTLINER STYLES - Vertical Lines
+   ================================================================= */
 .outliner-plugin-list-lines-scroller {
   position: absolute;
   top: 0;
@@ -69,7 +78,9 @@
   content: none;
 }
 
-/* drag-n-drop */
+/* =================================================================
+   OUTLINER STYLES - Drag and Drop
+   ================================================================= */
 .outliner-plugin-dropping-line {
   background-color: hsla(var(--interactive-accent-hsl), 0.4);
 }
@@ -103,3 +114,200 @@ body.outliner-plugin-dnd:not(.outliner-plugin-dragging)
 html body.outliner-plugin-dnd.outliner-plugin-dragging {
   cursor: grabbing !important;
 }
+
+/* =================================================================
+   ZOOM STYLES - Breadcrumb Header
+   ================================================================= */
+.zoom-plugin-header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+  margin: var(--file-margins);
+  margin-top: var(--size-4-2);
+  margin-bottom: var(--size-4-2);
+  font-size: var(--font-ui-small);
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+.zoom-plugin-title {
+  color: var(--text-muted);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100px;
+  flex-shrink: 1;
+  transition: color 0.15s ease, opacity 0.2s ease, max-width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+}
+
+.zoom-plugin-title:hover {
+  color: var(--text-normal);
+  text-decoration: underline;
+  max-width: 600px;
+  flex-shrink: 0;
+}
+
+.zoom-plugin-title.zoom-plugin-hidden {
+  max-width: 0;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.zoom-plugin-title-current {
+  max-width: none;
+  flex-shrink: 1;
+}
+
+.zoom-plugin-delimiter {
+  display: inline-block;
+  padding: 0 6px;
+  color: var(--text-faint);
+  flex-shrink: 0;
+  font-size: 0.9em;
+  transition: opacity 0.2s ease, padding 0.2s ease;
+  opacity: 1;
+}
+
+.zoom-plugin-delimiter.zoom-plugin-hidden {
+  opacity: 0;
+  padding: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.zoom-plugin-expand-btn,
+.zoom-plugin-collapse-btn {
+  background: var(--background-modifier-hover);
+  border: none;
+  border-radius: var(--radius-s);
+  color: var(--text-faint);
+  cursor: pointer;
+  font-size: 0.8em;
+  padding: 0 6px;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.2s ease, max-width 0.2s ease, padding 0.2s ease;
+  flex-shrink: 0;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  opacity: 1;
+  max-width: 50px;
+  overflow: hidden;
+}
+
+.zoom-plugin-expand-btn:hover,
+.zoom-plugin-collapse-btn:hover {
+  background: var(--background-modifier-border);
+  color: var(--text-muted);
+}
+
+.zoom-plugin-expand-btn.zoom-plugin-hidden,
+.zoom-plugin-collapse-btn.zoom-plugin-hidden {
+  opacity: 0;
+  max-width: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.zoom-plugin-collapse-btn {
+  margin-left: 6px;
+}
+
+/* =================================================================
+   ZOOM STYLES - Click on Bullet to Zoom
+   ================================================================= */
+.zoom-plugin-bls-zoom .cm-editor .cm-formatting-list-ol,
+.zoom-plugin-bls-zoom .cm-editor .cm-formatting-list-ul {
+  cursor: pointer;
+}
+
+.zoom-plugin-bls-zoom
+  .markdown-source-view.mod-cm6
+  .cm-fold-indicator
+  .collapse-indicator {
+  margin-right: 6px;
+  padding-right: 0;
+}
+
+.zoom-plugin-bls-zoom
+  .markdown-source-view.mod-cm6
+  .cm-line:not(.cm-active):not(.HyperMD-header):not(.HyperMD-task-line)
+  .cm-fold-indicator
+  .collapse-indicator {
+  margin-right: 18px;
+  padding-right: 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-panels {
+  border-bottom-color: var(--background-modifier-border);
+}
+
+/* =================================================================
+   LINKED COPIES (MIRRORS) STYLES
+   ================================================================= */
+
+/* Mirror bullet: smaller filled center with dashed outline (like Tana) */
+.outliner-plugin-mirror-line .list-bullet::after {
+  /* Smaller bullet */
+  width: 0.28em !important;
+  height: 0.28em !important;
+  /* Filled center */
+  background-color: var(--text-muted) !important;
+  /* Dashed outline */
+  outline: 1px dashed var(--text-faint);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+/* Mirror bullet when collapsed - accent color */
+.outliner-plugin-mirror-line .cm-fold-indicator.is-collapsed ~ * .list-bullet::after,
+.outliner-plugin-mirror-line:has(.is-collapsed) .list-bullet::after {
+  background-color: var(--text-accent) !important;
+  outline-color: var(--text-accent);
+}
+
+/* Visual indicator for mirror breadcrumbs - subtle accent on first item (file name) */
+.zoom-plugin-header-mirror .zoom-plugin-title:first-of-type {
+  color: var(--text-accent);
+}
+
+.zoom-plugin-header-mirror .zoom-plugin-title:first-of-type::before {
+  content: "◉ ";
+  opacity: 0.8;
+}
+
+/* Hide the mirror marker comment completely */
+.outliner-plugin-mirror-line .cm-comment {
+  display: none !important;
+}
+
+/* Hide mirror marker in reading/preview view */
+.markdown-preview-view .outliner-plugin-mirror-marker,
+.markdown-reading-view .outliner-plugin-mirror-marker {
+  display: none;
+}
+
+/* Hide block ID completely in linked original lines */
+.outliner-plugin-linked-original .cm-blockid {
+  display: none !important;
+}
+
+/* Make standalone block IDs very subtle */
+.cm-blockid {
+  font-size: 0.6em;
+  opacity: 0.25;
+  color: var(--text-faint);
+}
+
+/* Original block indicator - subtle ring */
+.outliner-plugin-linked-original .list-bullet::after {
+  box-shadow: 0 0 0 2px var(--background-primary),
+              0 0 0 3px currentColor;
+}
+

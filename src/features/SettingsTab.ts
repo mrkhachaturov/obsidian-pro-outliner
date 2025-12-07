@@ -2,6 +2,7 @@ import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
 
 import { Feature } from "./Feature";
 
+import { t } from "../services/i18n";
 import {
   KeepCursorWithinContent,
   Settings,
@@ -22,7 +23,7 @@ class ObsidianProOutlinerPluginSettingTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "List Behavior" });
+    containerEl.createEl("h2", { text: t("settings.list-behavior-title") });
 
     new Setting(containerEl)
       .setName("Stick the cursor to the content")
@@ -105,7 +106,7 @@ class ObsidianProOutlinerPluginSettingTab extends PluginSettingTab {
           });
       });
 
-    containerEl.createEl("h2", { text: "Appearance" });
+    containerEl.createEl("h2", { text: t("settings.appearance-title") });
 
     new Setting(containerEl)
       .setName("Improve the style of your lists")
@@ -153,11 +154,11 @@ class ObsidianProOutlinerPluginSettingTab extends PluginSettingTab {
       });
     });
 
-    containerEl.createEl("h2", { text: "Zoom" });
+    containerEl.createEl("h2", { text: t("settings.zoom-title") });
 
     new Setting(containerEl)
-      .setName("Zoom in when clicking on the bullet")
-      .setDesc("Click on a bullet point to zoom into that list item.")
+      .setName(t("settings.zoom-on-click"))
+      .setDesc(t("settings.zoom-on-click-desc"))
       .addToggle((toggle) => {
         toggle.setValue(this.settings.zoomOnClick).onChange(async (value) => {
           this.settings.zoomOnClick = value;
@@ -165,11 +166,23 @@ class ObsidianProOutlinerPluginSettingTab extends PluginSettingTab {
         });
       });
 
+    containerEl.createEl("h2", { text: t("settings.linked-copies-title") });
+
     new Setting(containerEl)
-      .setName("Debug mode")
-      .setDesc(
-        "Open DevTools (Command+Option+I or Control+Shift+I) to copy the debug logs.",
-      )
+      .setName(t("settings.linked-copies"))
+      .setDesc(t("settings.linked-copies-full-desc"))
+      .addToggle((toggle) => {
+        toggle.setValue(this.settings.linkedCopies).onChange(async (value) => {
+          this.settings.linkedCopies = value;
+          await this.settings.save();
+        });
+      });
+
+    containerEl.createEl("h2", { text: t("settings.debug-title") });
+
+    new Setting(containerEl)
+      .setName(t("settings.debug"))
+      .setDesc(t("settings.debug-desc"))
       .addToggle((toggle) => {
         toggle.setValue(this.settings.debug).onChange(async (value) => {
           this.settings.debug = value;

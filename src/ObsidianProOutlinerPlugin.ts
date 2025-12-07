@@ -13,6 +13,8 @@ import { Feature } from "./features/Feature";
 // Zoom features
 import { HeaderNavigationFeature } from "./features/HeaderNavigationFeature";
 import { LimitSelectionFeature } from "./features/LimitSelectionFeature";
+// Linked copies feature
+import { LinkedCopiesFeature } from "./features/LinkedCopiesFeature";
 import { ListsFoldingCommands } from "./features/ListsFoldingCommands";
 import { ListsMovementCommands } from "./features/ListsMovementCommands";
 import { ListsStylesFeature } from "./features/ListsStylesFeature";
@@ -220,6 +222,7 @@ export default class ObsidianProOutlinerPlugin extends Plugin {
         this.zoomFeature,
         this.zoomFeature,
         this.zoomFeature,
+        this.app,
       ),
 
       // Click on bullet to zoom
@@ -227,6 +230,11 @@ export default class ObsidianProOutlinerPlugin extends Plugin {
 
       // Zoom-related list styles
       new ListsStylesFeature(this.settings),
+
+      // ============================================
+      // LINKED COPIES (MIRRORS) FEATURE
+      // ============================================
+      new LinkedCopiesFeature(this, this.settings),
     ];
 
     for (const feature of this.features) {

@@ -1,14 +1,24 @@
+export interface MirrorSourceInfo {
+  fileName: string;
+}
+
 export function renderHeader(
   doc: Document,
   ctx: {
     breadcrumbs: Array<{ title: string; pos: number | null }>;
+    mirrorSource?: MirrorSourceInfo;
     onClick: (pos: number | null) => void;
   },
 ) {
-  const { breadcrumbs, onClick } = ctx;
+  const { breadcrumbs, mirrorSource, onClick } = ctx;
 
   const h = doc.createElement("div");
   h.classList.add("zoom-plugin-header");
+
+  // If showing mirror's original path, add visual indicator
+  if (mirrorSource) {
+    h.classList.add("zoom-plugin-header-mirror");
+  }
 
   // If 3 or fewer breadcrumbs, show all normally
   // If more than 3, show: root / … / second-to-last / last

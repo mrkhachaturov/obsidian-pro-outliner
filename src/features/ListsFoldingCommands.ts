@@ -3,6 +3,7 @@ import { Notice, Plugin } from "obsidian";
 import { Feature } from "./Feature";
 
 import { MyEditor } from "../editor";
+import { t } from "../services/i18n";
 import { ObsidianSettings } from "../services/ObsidianSettings";
 import { createEditorCallback } from "../utils/createEditorCallback";
 
@@ -16,7 +17,7 @@ export class ListsFoldingCommands implements Feature {
     this.plugin.addCommand({
       id: "fold",
       icon: "chevrons-down-up",
-      name: "Fold the list",
+      name: t("cmd.fold"),
       editorCallback: createEditorCallback(this.fold),
       hotkeys: [
         {
@@ -29,7 +30,7 @@ export class ListsFoldingCommands implements Feature {
     this.plugin.addCommand({
       id: "unfold",
       icon: "chevrons-up-down",
-      name: "Unfold the list",
+      name: t("cmd.unfold"),
       editorCallback: createEditorCallback(this.unfold),
       hotkeys: [
         {
