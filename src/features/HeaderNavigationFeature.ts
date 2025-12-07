@@ -403,7 +403,6 @@ export class HeaderNavigationFeature implements Feature {
     setTimeout(() => {
       const view = this.app.workspace.getActiveViewOfType(MarkdownView);
       if (view) {
-        // @ts-expect-error - accessing internal CM view
         const cmView = (view.editor as { cm?: EditorView }).cm;
         if (!cmView) return;
 

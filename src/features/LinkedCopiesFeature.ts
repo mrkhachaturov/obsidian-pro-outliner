@@ -784,16 +784,29 @@ export class LinkedCopiesFeature implements Feature {
 
     // Update children if different
     const currentChildren = this.getMirrorChildren(lines, mirror.line);
-    if (JSON.stringify(currentChildren) !== JSON.stringify(original.children)) {
+    
+    // Get the base indentation of the mirror line
+    const mirrorLineText = lines[mirror.line];
+    const mirrorIndentMatch = mirrorLineText.match(/^(\s*)/);
+    const mirrorBaseIndent = mirrorIndentMatch ? mirrorIndentMatch[1] : "";
+    
+    // Adjust original children to match mirror's indentation level
+    const adjustedChildren = original.children.map((child) => {
+      // Each child should have mirror's base indent added
+      return mirrorBaseIndent + child;
+    });
+    
+    console.log("  Current children:", currentChildren);
+    console.log("  New children (adjusted):", adjustedChildren);
+    
+    if (JSON.stringify(currentChildren) !== JSON.stringify(adjustedChildren)) {
       this.log("Updating children");
-      console.log("  Current children:", currentChildren);
-      console.log("  New children:", original.children);
 
-      // Remove old children and insert new ones
+      // Remove old children and insert new ones with adjusted indentation
       lines.splice(
         mirror.line + 1,
         currentChildren.length,
-        ...original.children,
+        ...adjustedChildren,
       );
       modified = true;
     }
