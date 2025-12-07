@@ -54,7 +54,7 @@ export class LinkedCopiesFeature implements Feature {
    */
   private log(...args: unknown[]) {
     if (this.settings.debug) {
-      this.log("", ...args);
+      console.log("[LinkedCopies]", ...args);
     }
   }
 
