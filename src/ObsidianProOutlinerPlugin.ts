@@ -44,6 +44,7 @@ declare global {
   const CHANGELOG_MD: string;
   interface Window {
     ObsidianProOutlinerPlugin?: ObsidianProOutlinerPlugin;
+    // ObsidianZoomPlugin is declared in editor/index.ts
   }
 }
 
@@ -63,6 +64,14 @@ export default class ObsidianProOutlinerPlugin extends Plugin {
 
     // Make plugin available globally for API access
     window.ObsidianProOutlinerPlugin = this;
+
+    // Expose zoom API for backward compatibility (used by MyEditor class)
+    window.ObsidianZoomPlugin = {
+      getZoomRange: (e: Editor) => this.getZoomRange(e),
+      zoomOut: (e: Editor) => this.zoomOut(e),
+      zoomIn: (e: Editor, line: number) => this.zoomIn(e, line),
+      refreshZoom: (e: Editor) => this.refreshZoom(e),
+    };
 
     await this.prepareSettings();
 
@@ -246,6 +255,7 @@ export default class ObsidianProOutlinerPlugin extends Plugin {
     console.log(`Unloading obsidian-pro-outliner`);
 
     delete window.ObsidianProOutlinerPlugin;
+    delete window.ObsidianZoomPlugin;
 
     await this.imeDetector.unload();
 

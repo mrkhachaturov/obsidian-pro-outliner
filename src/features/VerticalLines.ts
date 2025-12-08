@@ -93,9 +93,16 @@ class VerticalLinesPluginValue implements PluginValue {
   private calculate = () => {
     this.lines = [];
 
-    if (
+    // Draw custom vertical lines when:
+    // 1. Setting is enabled AND
+    // 2. Either default theme is used OR user has set a click action (need clickable lines)
+    const shouldDrawLines =
       this.settings.verticalLines &&
-      this.obsidianSettings.isDefaultThemeEnabled() &&
+      (this.obsidianSettings.isDefaultThemeEnabled() ||
+        this.settings.verticalLinesAction !== "none");
+
+    if (
+      shouldDrawLines &&
       this.view.viewportLineBlocks.length > 0 &&
       this.view.visibleRanges.length > 0
     ) {
@@ -208,15 +215,30 @@ class VerticalLinesPluginValue implements PluginValue {
 
   private onClick = (e: MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
 
-    const line = this.lines[Number((e.target as HTMLElement).dataset.index)];
+    console.log("[VerticalLines] Click detected"); // DEBUG
+    console.log("[VerticalLines] Action:", this.settings.verticalLinesAction); // DEBUG
+
+    const index = Number((e.target as HTMLElement).dataset.index);
+    console.log("[VerticalLines] Line index:", index); // DEBUG
+
+    const line = this.lines[index];
+    console.log("[VerticalLines] Line data:", line); // DEBUG
+
+    if (!line) {
+      console.log("[VerticalLines] No line data found!"); // DEBUG
+      return;
+    }
 
     switch (this.settings.verticalLinesAction) {
       case "zoom-in":
+        console.log("[VerticalLines] Executing zoom-in"); // DEBUG
         this.zoomIn(line);
         break;
 
       case "toggle-folding":
+        console.log("[VerticalLines] Executing toggle-folding"); // DEBUG
         this.toggleFolding(line);
         break;
     }
@@ -225,7 +247,18 @@ class VerticalLinesPluginValue implements PluginValue {
   private zoomIn(line: LineData) {
     const editor = getEditorFromState(this.view.state);
 
-    editor.zoomIn(line.list.getFirstLineContentStart().line);
+    console.log("[VerticalLines] Editor:", editor); // DEBUG
+    console.log("[VerticalLines] Editor.zoomIn:", typeof editor?.zoomIn); // DEBUG
+
+    const targetLine = line.list.getFirstLineContentStart().line;
+    console.log("[VerticalLines] Target line for zoom:", targetLine); // DEBUG
+
+    if (editor && typeof editor.zoomIn === "function") {
+      editor.zoomIn(targetLine);
+      console.log("[VerticalLines] zoomIn called successfully"); // DEBUG
+    } else {
+      console.log("[VerticalLines] ERROR: editor.zoomIn is not available!"); // DEBUG
+    }
   }
 
   private toggleFolding(line: LineData) {
@@ -352,9 +385,12 @@ export class VerticalLines implements Feature {
   }
 
   private updateBodyClass = () => {
+    // Add body class when we're drawing our own lines (to hide native CSS lines)
+    // This happens when: default theme OR user has set a click action
     const shouldExists =
-      this.obsidianSettings.isDefaultThemeEnabled() &&
-      this.settings.verticalLines;
+      this.settings.verticalLines &&
+      (this.obsidianSettings.isDefaultThemeEnabled() ||
+        this.settings.verticalLinesAction !== "none");
     const exists = document.body.classList.contains(VERTICAL_LINES_BODY_CLASS);
 
     if (shouldExists && !exists) {

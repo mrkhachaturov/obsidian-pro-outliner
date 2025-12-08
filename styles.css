@@ -3,6 +3,82 @@
    Combines styles from Obsidian Outliner and Obsidian Zoom
    ================================================================= */
 
+/* @settings
+
+name: Pro Outliner
+id: obsidian-pro-outliner
+settings:
+    -
+        id: vertical-lines-heading
+        title: Vertical Indentation Lines
+        type: heading
+        level: 2
+        collapsed: false
+    -
+        id: outliner-vertical-line-color
+        title: Line Color
+        description: Color of the vertical indentation lines
+        type: variable-color
+        format: hex
+        default: '#888888'
+    -
+        id: outliner-vertical-line-width
+        title: Line Width
+        description: Width of the vertical lines in pixels
+        type: variable-number-slider
+        default: 1
+        min: 1
+        max: 4
+        step: 1
+        format: px
+    -
+        id: outliner-vertical-line-hover-color
+        title: Line Hover Color
+        description: Color when hovering over the line
+        type: variable-color
+        format: hex
+        default: '#666666'
+    -
+        id: outliner-vertical-line-offset
+        title: Horizontal Offset
+        description: Horizontal position adjustment (use negative values to move left)
+        type: variable-text
+        default: 0.5ch
+    -
+        id: outliner-vertical-line-top-offset
+        title: Vertical Offset
+        description: Vertical position from the bullet
+        type: variable-text
+        default: 1em
+    -
+        id: outliner-vertical-line-click-width
+        title: Click Area Width
+        description: Width of the clickable area around the line
+        type: variable-number-slider
+        default: 5
+        min: 3
+        max: 15
+        step: 1
+        format: px
+    -
+        id: outliner-vertical-line-rounded
+        title: Rounded Line Ends
+        description: Use rounded ends on vertical lines
+        type: class-toggle
+        default: true
+    -
+        id: outliner-vertical-line-border-radius
+        title: Border Radius
+        description: Roundness of line ends (only applies when Rounded Line Ends is enabled)
+        type: variable-number-slider
+        default: 3
+        min: 0
+        max: 10
+        step: 1
+        format: px
+
+*/
+
 /* =================================================================
    OUTLINER STYLES - Lists and Bullets
    ================================================================= */
@@ -22,6 +98,11 @@
 
 /* =================================================================
    OUTLINER STYLES - Vertical Lines
+   
+   CSS Variables for customization (can be overridden by themes or snippets):
+   --outliner-vertical-line-color: Color of the vertical lines
+   --outliner-vertical-line-width: Width of the lines (default: 1px)
+   --outliner-vertical-line-hover-color: Color when hovering
    ================================================================= */
 .outliner-plugin-list-lines-scroller {
   position: absolute;
@@ -42,23 +123,23 @@
 .outliner-plugin-list-line {
   pointer-events: auto;
   position: absolute;
-  width: 5px;
-  margin-left: 0.5ch;
-  margin-top: 1em;
+  width: var(--outliner-vertical-line-click-width, 5px);
+  margin-left: var(--outliner-vertical-line-offset, 0.5ch);
+  margin-top: var(--outliner-vertical-line-top-offset, 1em);
   z-index: 1;
   cursor: pointer;
   background: transparent;
   background-image: linear-gradient(
     to right,
-    var(--text-faint) 1px,
-    transparent 1px
+    var(--outliner-vertical-line-color, var(--text-faint)) var(--outliner-vertical-line-width, 1px),
+    transparent var(--outliner-vertical-line-width, 1px)
   );
   background-position-x: 2px;
   background-repeat: no-repeat;
 }
 
 .outliner-plugin-better-bullets .outliner-plugin-list-line {
-  margin-top: 1.4em;
+  margin-top: var(--outliner-vertical-line-top-offset, 1.4em);
 }
 
 .markdown-source-view.mod-cm6.is-readable-line-width
@@ -68,7 +149,12 @@
 }
 
 .outliner-plugin-list-line:hover {
-  background: var(--text-faint);
+  background: var(--outliner-vertical-line-hover-color, var(--text-faint));
+}
+
+/* Rounded line ends when hovering (enabled via Style Settings) */
+.outliner-vertical-line-rounded .outliner-plugin-list-line {
+  border-radius: var(--outliner-vertical-line-border-radius, 3px);
 }
 
 .outliner-plugin-vertical-lines
