@@ -925,38 +925,96 @@ export class LinkedCopiesFeature implements Feature {
   }
 
   /**
-   * Update all mirrors in a specific file
+   * Update all mirrors in a specific file (including children)
    */
   private async updateMirrorsInFile(file: TFile) {
     const content = await this.plugin.app.vault.cachedRead(file);
     const lines = content.split("\n");
     let modified = false;
-    const newLines = [...lines];
+
+    // Process mirrors from bottom to top to avoid index shifting issues
+    const mirrorsToUpdate: {
+      line: number;
+      mirrorId: string;
+      original: { content: string; children: string[] };
+    }[] = [];
 
     for (let i = 0; i < lines.length; i++) {
       const mirrorId = this.store.parseMirrorMarker(lines[i]);
       if (mirrorId) {
         const original = await this.store.findBlockById(mirrorId);
         if (original) {
-          const originalContent = this.store.extractListContent(
-            original.content,
-          );
-          const mirrorPrefix = this.store.getLinePrefix(lines[i]);
-          const newMirrorLine = this.store.addMirrorMarker(
-            `${mirrorPrefix}${originalContent}`,
-            mirrorId,
+          // Get original's children
+          const originalFile = original.file;
+          const originalContent =
+            await this.plugin.app.vault.cachedRead(originalFile);
+          const originalLines = originalContent.split("\n");
+          const originalChildren = this.getChildLinesFromArray(
+            originalLines,
+            original.line,
           );
 
-          if (newLines[i] !== newMirrorLine) {
-            newLines[i] = newMirrorLine;
-            modified = true;
-          }
+          mirrorsToUpdate.push({
+            line: i,
+            mirrorId,
+            original: {
+              content: original.content,
+              children: originalChildren,
+            },
+          });
         }
       }
     }
 
+    // Process from bottom to top
+    mirrorsToUpdate.reverse();
+
+    for (const mirror of mirrorsToUpdate) {
+      const currentMirrorLine = lines[mirror.line];
+      const mirrorPrefix = this.store.getLinePrefix(currentMirrorLine);
+      const originalContent = this.store.extractListContent(
+        mirror.original.content,
+      );
+      const newMirrorLine = this.store.addMirrorMarker(
+        `${mirrorPrefix}${originalContent}`,
+        mirror.mirrorId,
+      );
+
+      // Update mirror line if different
+      if (lines[mirror.line] !== newMirrorLine) {
+        lines[mirror.line] = newMirrorLine;
+        modified = true;
+      }
+
+      // Update children
+      const currentChildren = this.getMirrorChildren(lines, mirror.line);
+
+      // Get the base indentation of the mirror line
+      const mirrorIndentMatch = currentMirrorLine.match(/^(\s*)/);
+      const mirrorBaseIndent = mirrorIndentMatch ? mirrorIndentMatch[1] : "";
+
+      // Adjust original children to match mirror's indentation level
+      const adjustedChildren = mirror.original.children.map((child) => {
+        const childWithoutBlockId = this.store.removeBlockId(child);
+        return mirrorBaseIndent + childWithoutBlockId;
+      });
+
+      if (
+        JSON.stringify(currentChildren) !== JSON.stringify(adjustedChildren)
+      ) {
+        // Remove old children and insert new ones
+        lines.splice(
+          mirror.line + 1,
+          currentChildren.length,
+          ...adjustedChildren,
+        );
+        modified = true;
+      }
+    }
+
     if (modified) {
-      await this.plugin.app.vault.modify(file, newLines.join("\n"));
+      await this.plugin.app.vault.modify(file, lines.join("\n"));
+      this.log("Mirrors in file updated (including children):", file.path);
     }
   }
 
