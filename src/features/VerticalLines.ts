@@ -32,6 +32,7 @@ class VerticalLinesPluginValue implements PluginValue {
   private lastLine: number;
   private lines: LineData[];
   private lineElements: HTMLElement[] = [];
+  private clickLock = false;
 
   constructor(
     private settings: Settings,
@@ -53,7 +54,12 @@ class VerticalLinesPluginValue implements PluginValue {
       return;
     }
     this.editor = editor;
-    this.scheduleRecalculate();
+    // Delay initial calculation to ensure editor geometry is fully initialized
+    setTimeout(() => {
+      this.scheduleRecalculate();
+      // Second recalculation to catch any late geometry updates
+      setTimeout(() => this.scheduleRecalculate(), 100);
+    }, 50);
   };
 
   private prepareDom() {
@@ -217,28 +223,28 @@ class VerticalLinesPluginValue implements PluginValue {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("[VerticalLines] Click detected"); // DEBUG
-    console.log("[VerticalLines] Action:", this.settings.verticalLinesAction); // DEBUG
+    // Prevent double-click issues
+    if (this.clickLock) {
+      return;
+    }
+    this.clickLock = true;
+    setTimeout(() => {
+      this.clickLock = false;
+    }, 100);
 
     const index = Number((e.target as HTMLElement).dataset.index);
-    console.log("[VerticalLines] Line index:", index); // DEBUG
-
     const line = this.lines[index];
-    console.log("[VerticalLines] Line data:", line); // DEBUG
 
     if (!line) {
-      console.log("[VerticalLines] No line data found!"); // DEBUG
       return;
     }
 
     switch (this.settings.verticalLinesAction) {
       case "zoom-in":
-        console.log("[VerticalLines] Executing zoom-in"); // DEBUG
         this.zoomIn(line);
         break;
 
       case "toggle-folding":
-        console.log("[VerticalLines] Executing toggle-folding"); // DEBUG
         this.toggleFolding(line);
         break;
     }
@@ -246,18 +252,10 @@ class VerticalLinesPluginValue implements PluginValue {
 
   private zoomIn(line: LineData) {
     const editor = getEditorFromState(this.view.state);
-
-    console.log("[VerticalLines] Editor:", editor); // DEBUG
-    console.log("[VerticalLines] Editor.zoomIn:", typeof editor?.zoomIn); // DEBUG
-
     const targetLine = line.list.getFirstLineContentStart().line;
-    console.log("[VerticalLines] Target line for zoom:", targetLine); // DEBUG
 
     if (editor && typeof editor.zoomIn === "function") {
       editor.zoomIn(targetLine);
-      console.log("[VerticalLines] zoomIn called successfully"); // DEBUG
-    } else {
-      console.log("[VerticalLines] ERROR: editor.zoomIn is not available!"); // DEBUG
     }
   }
 
@@ -327,6 +325,10 @@ class VerticalLinesPluginValue implements PluginValue {
 
       const l = this.lines[i];
       const e = this.lineElements[i];
+
+      // Update data-index in case lines got reordered
+      e.dataset.index = String(i);
+
       e.style.top = l.top + "px";
       e.style.left = l.left + "px";
       e.style.height = l.height;

@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.6 (2025-12-09)
+
+### Bug Fixes
+- Fixed vertical lines click action not working with custom themes
+- Fixed double-click issue on vertical lines causing incorrect rendering
+- Fixed vertical lines appearing at wrong position on document open
+- Exposed zoom API for backward compatibility with internal components
+
+### Known Issues
+- Vertical lines may occasionally render incorrectly after fold/unfold operations (click elsewhere to refresh) - fix in progress
+
 ## 1.0.5 (2025-12-08)
 
 ### Bug Fixes
