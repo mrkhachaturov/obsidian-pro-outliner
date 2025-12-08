@@ -70,6 +70,14 @@ Make the Enter key behave the same as other outliners:
 
 Press the hotkey once to select the current list item. Press the hotkey twice to select the entire list.
 
+#### Vim-mode o/O Inserts Bullets
+
+When using Obsidian's built-in vim mode:
+- **o** (lowercase) — Creates a new bullet below the current item. If the current item has children, inserts as the first child.
+- **O** (uppercase) — Creates a new bullet above the current item.
+
+Both commands automatically add the bullet prefix and enter insert mode, matching the behavior of other outliners.
+
 #### Drag-and-Drop
 
 Drag list items by their bullets to reorder them.
