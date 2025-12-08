@@ -86,6 +86,15 @@ Drag list items by their bullets to reorder them.
 
 Visual guides showing list indentation levels.
 
+**Style Settings Integration:** If you have the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin installed, you can customize the appearance of vertical lines:
+- Line color
+- Line width
+- Hover color
+- Horizontal offset
+- Top offset
+- Click area width
+- Rounded line ends with adjustable border radius
+
 ### Zoom Features
 
 #### Zoom In/Out

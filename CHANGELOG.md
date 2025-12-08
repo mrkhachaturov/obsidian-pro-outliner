@@ -2,6 +2,9 @@
 
 ## 1.0.6 (2025-12-09)
 
+### New Features
+- **Style Settings integration** — Customize vertical indentation lines appearance via [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin (color, width, hover color, offsets, rounded ends, etc.)
+
 ### Bug Fixes
 - Fixed vertical lines click action not working with custom themes
 - Fixed double-click issue on vertical lines causing incorrect rendering
