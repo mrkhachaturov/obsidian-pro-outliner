@@ -250,4 +250,42 @@ describe("CreateNewItem operation", () => {
     // Adjust the expected output to match actual behavior
     expect(root.print()).toBe("- par\n- ent item\n  - child 1\n  - child 2");
   });
+
+  test("should insert above current item when after=false (vim O command)", () => {
+    const root = makeRoot({
+      editor: makeEditor({
+        text: "- item 1\n  - child\n- item 2\n",
+        cursor: { line: 0, ch: 8 }, // End of "item 1"
+      }),
+      settings: makeSettings(),
+    });
+
+    // after=false simulates vim O command (insert line above)
+    const op = new CreateNewItem(root, "  ", getZoomRange, false);
+    op.perform();
+
+    // New item should be ABOVE "item 1", not as a child
+    expect(root.print()).toBe("- \n- item 1\n  - child\n- item 2");
+    expect(root.getCursor().line).toBe(0);
+    expect(root.getCursor().ch).toBe(2);
+  });
+
+  test("should insert below as child when after=true with nested children (vim o command)", () => {
+    const root = makeRoot({
+      editor: makeEditor({
+        text: "- item 1\n  - child\n- item 2\n",
+        cursor: { line: 0, ch: 8 }, // End of "item 1"
+      }),
+      settings: makeSettings(),
+    });
+
+    // after=true (default) simulates vim o command (insert line below)
+    const op = new CreateNewItem(root, "  ", getZoomRange, true);
+    op.perform();
+
+    // New item should be as first child of "item 1"
+    expect(root.print()).toBe("- item 1\n  - \n  - child\n- item 2");
+    expect(root.getCursor().line).toBe(1);
+    expect(root.getCursor().ch).toBe(4);
+  });
 });
