@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.5 (2025-12-08)
+
+### Bug Fixes
+- Fixed vim O command inserting below instead of above when current item has nested children
+
 ## 1.0.4 (2025-12-07)
 
 ### Improvements

@@ -1,6 +1,6 @@
 {
   "name": "obsidian-pro-outliner",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Work with your lists like in Workflowy, RoamResearch, or Tana, with zoom functionality.",
   "main": "main.js",
   "scripts": {
